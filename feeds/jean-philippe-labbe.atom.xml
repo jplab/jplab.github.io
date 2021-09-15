@@ -1,0 +1,1233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Jean-Philippe Labbé's webpage - Jean-Philippe Labbé</title><link href="http://page.mi.fu-berlin.de/labbe/" rel="alternate"></link><link href="http://page.mi.fu-berlin.de/labbe/feeds/jean-philippe-labbe.atom.xml" rel="self"></link><id>http://page.mi.fu-berlin.de/labbe/</id><updated>2020-11-06T11:00:00+01:00</updated><entry><title>Draw polytopes using TikZ</title><link href="http://page.mi.fu-berlin.de/labbe/polytope.html" rel="alternate"></link><published>2020-11-06T11:00:00+01:00</published><updated>2020-11-06T11:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2020-11-06:/labbe/polytope.html</id><summary type="html">&lt;p class="first last"&gt;How to draw polytopes in LaTeX using Sage, TikZ and SageTex&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;It is sometimes very helpful to draw 3-dimensional polytope in a paper. TikZ is
+a very versatile tool to draw in scientific documents and Sage can deal easily
+with 3-dimensional polytopes. Finally sagetex makes everything work together
+nicely between Sage, tikz and latex. Since version 6.3 of Sage, there is a
+function for (projection of) polytopes to output a TikZ picture of the
+polytope. This short tutorial shows how it all works. Since version 9.2 of Sage
+it became even easier!&lt;/p&gt;
+&lt;p&gt;To put an image of a 3d-polytope in latex using TikZ and Sage, simply follow the instructions:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Install &lt;a class="reference external" href="http://www.sagemath.org"&gt;Sage 9.2&lt;/a&gt; or higher&lt;/li&gt;
+&lt;li&gt;Install &lt;a class="reference external" href="http://www.sagemath.org/doc/tutorial/sagetex.html"&gt;SageTex&lt;/a&gt; (optionnal but recommended!)&lt;/li&gt;
+&lt;li&gt;Put &lt;tt class="docutils literal"&gt;\usepackage{tikz}&lt;/tt&gt; in the preamble of your article&lt;/li&gt;
+&lt;li&gt;Open Sage and change the directory to your article's by the command &lt;tt class="docutils literal"&gt;cd /path/to/article&lt;/tt&gt;&lt;/li&gt;
+&lt;li&gt;Input your polytope, called P, to Sage&lt;/li&gt;
+&lt;li&gt;Visualize the polytope P using the command &lt;tt class="docutils literal"&gt;P.show(aspect_ratio=1)&lt;/tt&gt;&lt;/li&gt;
+&lt;li&gt;This will open an interactive view in your default browser, where you can rotate the polytope.&lt;/li&gt;
+&lt;li&gt;Once the desired view angle is found, click on the information icon in the
+lower right-hand corner and select &lt;em&gt;Get Viewpoint&lt;/em&gt;. This will copy a string of
+the form ‘[x,y,z],angle’ to your local clipboard.&lt;/li&gt;
+&lt;li&gt;Go back to Sage and type &lt;tt class="docutils literal"&gt;Img = &lt;span class="pre"&gt;P.tikz([x,y,z],angle)&lt;/span&gt;&lt;/tt&gt;. You can paste the string here to save some typing.&lt;/li&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;Img&lt;/tt&gt; contains a Sage object of type LatexExpr containing the raw tikz picture of your polytope&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Then, you can either copy-paste it to your article by typing Img in Sage or save it to a file, by doing&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+f=open('Img_poly.tex','w')
+f.write(Img)
+f.close()
+&lt;/pre&gt;
+&lt;p&gt;Then in the pwd (present working directory of sage, the one of your article) you will have a file named Img_poly.tex containing the tikzpicture of your polytope&lt;/p&gt;
+&lt;p&gt;You can customize the polytope using the following options in the command &lt;tt class="docutils literal"&gt;P.tikz()&lt;/tt&gt;&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;scale&lt;/tt&gt; : positive number to scale the polytope&lt;/li&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;edge_color&lt;/tt&gt; : string (default: &lt;tt class="docutils literal"&gt;blue!95!black&lt;/tt&gt;) representing colors which tikz recognize&lt;/li&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;facet_color&lt;/tt&gt; : string (default: &lt;tt class="docutils literal"&gt;blue!95!black&lt;/tt&gt;) representing colors which tikz recognize&lt;/li&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;vertex_color&lt;/tt&gt; : string (default: &lt;tt class="docutils literal"&gt;green&lt;/tt&gt;) representing colors which tikz recognize&lt;/li&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;opacity&lt;/tt&gt; : real number (default: &lt;tt class="docutils literal"&gt;0.8&lt;/tt&gt;) between 0 and 1 giving the opacity of the front facets.&lt;/li&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;axis&lt;/tt&gt; : Boolean (default: &lt;tt class="docutils literal"&gt;False&lt;/tt&gt;) draw the axes at the origin or not.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="example"&gt;
+&lt;h2&gt;Example&lt;/h2&gt;
+&lt;p&gt;Let's say I want to draw the polar dual of the following (nice!) polytope given by the following list of vertices:&lt;/p&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;[[1,0,1],[1,0,0],[1,1,0],[0,0,-1],[0,1,0],[-1,0,0],[0,1,1],[0,0,1],[0,-1,0]]&lt;/span&gt;&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;In Sage, I type:&lt;/p&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;P = &lt;span class="pre"&gt;Polyhedron(vertices=[[1,0,1],[1,0,0],[1,1,0],[0,0,-1],[0,1,0],[-1,0,0],[0,1,1],[0,0,1],[0,-1,0]]).polar()&lt;/span&gt;&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;Then, I visualize the polytope by typing &lt;tt class="docutils literal"&gt;P.show(aspect_ratio=1)&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;When I found a good angle, I follow the above procedure to obtain the values [674,108,-731] and angle=112&lt;/p&gt;
+&lt;p&gt;The image corresponding to the code &lt;tt class="docutils literal"&gt;Img = &lt;span class="pre"&gt;P.tikz([674,108,-731],112)&lt;/span&gt;&lt;/tt&gt; is&lt;/p&gt;
+&lt;img alt="A 3-dim. associahedron" class="align-center" src="images/AssoTikZ.png" style="width: 10cm;" /&gt;
+&lt;p&gt;Then, I may want to customize using the command&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+Img = P.tikz([674,108,-731],112,scale=2, edge_color='orange',facet_color='red',vertex_color='blue',opacity=0.4)
+&lt;/pre&gt;
+&lt;p&gt;which gives the image (the scaling difference do not appear here)&lt;/p&gt;
+&lt;img alt="A 3-dim. associahedron" class="align-center" src="images/AssoTikZ2.png" style="width: 10cm;" /&gt;
+&lt;p&gt;Further, I may want to edit deeper the style of the polytope inside the tikzpicture. For example, line 6-9 in the tikzpicture reads:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+back/.style={loosely dotted, thin},
+edge/.style={color=orange, thick},
+facet/.style={fill=red,fill opacity=0.400000},
+vertex/.style={inner sep=1pt,circle,draw=blue!25!black,fill=blue!75!black,thick,anchor=base}]
+&lt;/pre&gt;
+&lt;p&gt;I can replace it by the following 4 lines (and adding &lt;tt class="docutils literal"&gt;\usetikzlibrary{shapes}&lt;/tt&gt; in the preamble)&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+back/.style={loosely dashed,line width=2pt},
+edge/.style={color=yellow, line width=2pt},
+facet/.style={fill=cyan,fill opacity=0.400000},
+vertex/.style={inner sep=4pt,star,star points=7,draw=blue!75!white,fill=blue!85!white,thick,anchor=base}]
+&lt;/pre&gt;
+&lt;p&gt;to give&lt;/p&gt;
+&lt;img alt="A 3-dim. associahedron" class="align-center" src="images/AssoTikZ3.png" style="width: 10cm;" /&gt;
+&lt;p&gt;Finally, you may want to tweak your picture my adding labels, elements on vertices, edges, facets, etc. Possibilities are unlimited with the possibilities of TikZ!&lt;/p&gt;
+&lt;img alt="A 3-dim. associahedron" class="align-center" src="images/AssoTikZ4.png" style="width: 15cm;" /&gt;
+&lt;p&gt;The source for the last image can be downloaded &lt;a class="reference external" href="images/Poly.tex"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="automatize-using-sagetex"&gt;
+&lt;h2&gt;Automatize using SageTex&lt;/h2&gt;
+&lt;p&gt;For this you need to put&lt;/p&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;\usepackage{sagetex}&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;in the preamble of your article&lt;/p&gt;
+&lt;p&gt;There are different ways to use sagetex and you may create your own. Here are some possibilities.&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;You can directly type in a sagestr in the article:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class="literal-block"&gt;
+\sagestr{(polytopes.permutahedron(4)).projection().tikz([4,5,6],45,scale=0.75, facet_color='red',vertex_color='yellow',opacity=0.3)}
+&lt;/pre&gt;
+&lt;p&gt;You should get&lt;/p&gt;
+&lt;img alt="A 3-dim. permutahedron" class="align-center" src="images/PermuTikZ.png" style="width: 7cm;" /&gt;
+&lt;ol class="arabic simple" start="2"&gt;
+&lt;li&gt;You may create the following tex commands&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class="literal-block"&gt;
+\newcommand{\polytopeimg}[4]{\sagestr{(#1).projection().tikz(#2,#3,#4)}}
+\newcommand{\polytopeimgopt}[9]{\sagestr{(#1).projection().tikz(#2,#3,#4,#5,#6,#7,#8,#9)}}
+&lt;/pre&gt;
+&lt;p&gt;in your preamble and use them with a sagesilent in your article:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+\begin{sagesilent}
+Polytope=polytopes.great_rhombicuboctahedron()
+\end{sagesilent}
+&lt;/pre&gt;
+&lt;pre class="literal-block"&gt;
+\polytopeimg{Polytope}{[276,-607,-746]}{102}{1}
+\polytopeimgopt{Polytope}{view=[-907,379,183]}{angle=129}{scale=2}{edge_color='red'}{facet_color='yellow'}{vertex_color='blue'}{opacity=0.6}{axis=False}
+&lt;/pre&gt;
+&lt;p&gt;Then, run pdflatex, execute Sage on the file article_name.sagetex.sage and run pdflatex again.&lt;/p&gt;
+&lt;p&gt;You should get&lt;/p&gt;
+&lt;img alt="A great rhombicuboctahedron" class="align-center" src="images/GRC1.png" style="width: 10cm;" /&gt;
+&lt;img alt="A great rhombicuboctahedron" class="align-center" src="images/GRC2.png" style="width: 10cm;" /&gt;
+&lt;/div&gt;
+</content><category term="TikZ"></category><category term="LaTeX"></category><category term="Sage"></category></entry><entry><title>Article du Devoir -- Thème Coronavirus</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_corona.html" rel="alternate"></link><published>2020-05-17T11:00:00+02:00</published><updated>2020-05-17T11:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2020-05-17:/labbe/devoir_corona.html</id><summary type="html">&lt;p class="first last"&gt;Sélection d'article sur le coronavirus du Devoir&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Durant 2020, plusieurs bons articles touchant le coronavirus directement ou
+indirectement ont été publiés dans le Devoir.&lt;/p&gt;
+&lt;p&gt;En voici quelques-uns qui ont attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="covid-19-chine-walmart-et-centre-dachats-des-colocs"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://www.ledevoir.com/opinion/idees/577445/covid-19-chine-walmart-et-centre-d-achats-des-colocs"&gt;COVID-19, Chine, Walmart et centre d’achats des Colocs&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;La crise démontre la faiblesse du tissu économique dans les régions. &amp;quot;À
+l'échelle planétaire, la Chine est le Walmart de l'humanité.&amp;quot; Les Walmart et
+Costco sont resté ouverts durant la crise, mais pas les petits magasins.
+La conclusion ironique est très bonne.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="sur-la-cote-r-au-collegial"&gt;
+&lt;h2&gt;Sur la cote R au collégial&lt;/h2&gt;
+&lt;p&gt;Il y a eu un débat intéressant concernant la cote R au collégial. Voici donc
+quelques articles qui en débattent.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.ledevoir.com/opinion/editoriaux/577336/suspension-de-la-cote-r-niveler-par-le-bas"&gt;Niveler par le bas&lt;/a&gt;: Éditorial de Bryan Miles&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.ledevoir.com/opinion/idees/577446/il-fallait-suspendre-le-calcul-de-la-cote-r"&gt;Il fallait suspendre le calcul de la cote R&lt;/a&gt;: Réponse de 150 enseignant(e)s&lt;/li&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.ledevoir.com/opinion/libre-opinion/578429/ne-pas-se-concentrer-uniquement-sur-la-cote-r"&gt;Ne pas se concentrer uniquement sur la cote R&lt;/a&gt;: Réponse de 3 médecins universitaires&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;/div&gt;
+&lt;div class="section" id="les-gafa-doivent-payer-croit-jean-michel-jarre"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://www.ledevoir.com/culture/577101/les-gafa-doivent-payer"&gt;Les GAFA doivent payer, croit Jean-Michel Jarre&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;La démocratie a besoin de la culture, rappelle le compositeur. C’est bien la
+raison pour laquelle les dictatures s’en méfient.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="etat-durgence-et-etat-de-droit"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://www.ledevoir.com/opinion/idees/577076/etat-d-urgence-et-etat-de-droit"&gt;État d’urgence et État de droit&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Les idées d'un constitutionaliste concernant certaines mesures, pouvant être
+considérées comme anticonstitutionelles, prisent par le gouvernement.
+Donnant l'exemple sur le droit à l'anonymité dans la charte des droits et
+libertés.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="sur-notre-difficile-souverainete-alimentaire"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://www.ledevoir.com/opinion/idees/577339/sur-notre-difficile-souverainete-alimentaire"&gt;Sur notre difficile souveraineté alimentaire&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Une réflexion intéressante concernant la souveraineté alimentaire du Québec.
+Il mentionne plusieurs aspects comme la dépendance à l'exportation, par exemple
+dans l'industrie du porc.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="le-corona-trauma"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://www.ledevoir.com/opinion/libre-opinion/578357/le-corona-trauma"&gt;Le corona trauma&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Une réflexion sur l'impact psychologique du coronavirus et le confinement. J'ai
+trouvé très intéressante la réflexion qui mérite d'être cité:&lt;/p&gt;
+&lt;p&gt;Puis le virus est arrivé et, sous prétexte de le contrer, nous avons fait ce
+que nous souhaitions faire depuis longtemps. Nous avons stoppé toutes nos
+activités. Certes, en plus intense qu’on ne l’aurait souhaité. Mais, pour
+vaincre la frénésie du progrès, il fallait toute la force de l’inquiétude, et
+tant pis si cette force dépassait un peu la mesure.&lt;/p&gt;
+&lt;p&gt;[...]&lt;/p&gt;
+&lt;p&gt;Dans le cadre de mon travail de psychologue, je rencontre fréquemment ce genre
+de situation. &lt;strong&gt;Une personne n’est pas capable de modérer sa quantité de travail
+parce qu’elle en tire trop de profits; pas nécessairement en matière
+financière, mais plutôt en reconnaissance sociale ou familiale. Cette personne
+va abuser d’elle-même en travaillant de plus en plus longtemps ou dans des
+situations de plus en plus risquées.&lt;/strong&gt; Sans prendre garde à l’usure que cet abus
+va imprimer dans son corps ou dans ses capacités d’attention. Tant et si bien
+que l’accident va survenir pour mettre un terme à cette dérive. Le corps est
+devenu plus fragile, l’attention s’est émoussée et ne protège plus du risque.
+L’accident est presque inéluctable.&lt;/p&gt;
+&lt;p&gt;Et cependant utile, surtout s’il n’est pas trop grave. Il va permettre à cette
+personne d’interrompre son travail « malgré elle ». Le trauma va s’installer un
+certain temps, jusqu’à ce qu’il soit métabolisé ou assumé par la personne.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="poisson-davril"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://www.ledevoir.com/opinion/chroniques/579011/poisson-d-avril"&gt;Poisson d’avril&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Quand le discours militant prend le pas sur le débat intellectuel.
+Chronique de Christian Rioux. Un point de vue intéressant sur la critique du
+Washington Post de la législation française.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="le-premier-valedictorian-noir-de-princeton-vient-du-quebec"&gt;
+&lt;h2&gt;Le premier valedictorian noir de Princeton vient du Québec&lt;/h2&gt;
+&lt;p&gt;Voici les article dans &lt;a class="reference external" href="https://www.ledevoir.com/societe/578916/iii-societeun-quebecois-marque-l-histoire-de-l-universite-princeton"&gt;Le Devoir&lt;/a&gt; et &lt;a class="reference external" href="https://thehill.com/blogs/in-the-know/in-the-know/497453-nicholas-johnson-princetons-first-black-valedictorian-receives"&gt;The Hill&lt;/a&gt; relatant cette première
+historique..&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="société"></category></entry><entry><title>How Similar Are Québec French and Metropolitan French?</title><link href="http://page.mi.fu-berlin.de/labbe/qc_fr.html" rel="alternate"></link><published>2019-01-27T14:10:00+01:00</published><updated>2019-01-27T14:10:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2019-01-27:/labbe/qc_fr.html</id><summary type="html">&lt;p class="first last"&gt;Good videos explaining the difference&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Here are two good videos about the difference between Québec French and
+Metropolitan French.&lt;/p&gt;
+&lt;p&gt;Here is a video in English explaining the differences quite well:&lt;/p&gt;
+&lt;iframe width="560" height="315"
+src="https://www.youtube.com/embed/A9rh3lqdtT0" frameborder="0"
+allowfullscreen&gt;&lt;/iframe&gt;
+&lt;p&gt;An one in French:&lt;/p&gt;
+&lt;iframe width="560" height="315"
+src="https://www.youtube.com/embed/qYm83H5TOMM" frameborder="0"
+allowfullscreen&gt;&lt;/iframe&gt;
+</content><category term="Québec"></category><category term="éducation"></category><category term="langue"></category></entry><entry><title>L'avenir des université</title><link href="http://page.mi.fu-berlin.de/labbe/avenir.html" rel="alternate"></link><published>2019-01-27T14:00:00+01:00</published><updated>2019-01-27T14:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2019-01-27:/labbe/avenir.html</id><summary type="html">&lt;p class="first last"&gt;Un bon texte sur l'éducation&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Voici un bon texte sur l'éducation écrit par Luc-Alain Giraldeau, directeur
+général de l'Institut national de la recherche scientifique.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://www.ledevoir.com/opinion/idees/545598/l-avenir-des-universites-passe-par-un-systeme-d-education-fort"&gt;L’avenir des universités passe par un système d’éducation fort&lt;/a&gt;&lt;/p&gt;
+</content><category term="société"></category><category term="Québec"></category><category term="éducation"></category></entry><entry><title>My reasons why I am not using Netflix</title><link href="http://page.mi.fu-berlin.de/labbe/netflix.html" rel="alternate"></link><published>2019-01-27T14:00:00+01:00</published><updated>2019-01-27T14:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2019-01-27:/labbe/netflix.html</id><summary type="html">&lt;p class="first last"&gt;Some reaons why I do not watch Netflix&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Netflix became a big player in the movie and series industry. But at which
+price?&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;&lt;a class="reference external" href="https://www.ledevoir.com/culture/540590/les-artistes-quebecois-attendent-toujours-les-investissements-de-netflix"&gt;Artists in Québec are still waiting for the promised investment&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;The canadian government &lt;a class="reference external" href="https://www.ledevoir.com/culture/509078/ottawa-aurait-une-entente-avec-netflix"&gt;agreed&lt;/a&gt; to waved the canadian Goods and Services Tax
+for Netflix while Netflix promises to invest 500M$ in Canada (how much in the
+francophone industry?) This deal created an uproar against the government.&lt;/li&gt;
+&lt;li&gt;Netflix productions made use of pictures of my home town burning after the
+infamous train derailment outside of its context. In the movie &lt;a class="reference external" href="https://www.huffingtonpost.ca/2019/01/23/netflix-apologizes-lac-megantic-footage-bird-box_a_23650706/?utm_hp_ref=ca-netflix"&gt;Bird Box&lt;/a&gt;,
+they use the pictures while saying that some nuclear accident happened in the
+London area. These pictures are real pictures of devastation and live people
+dying that is put in an entertainment context, completely out of context. This
+shows an outrageous lack of humanity and respect for the victims of the worst
+ecologic desaster in the History of Canada and the worst train derailment,
+while destroying completely the center of a town. Further, the series
+&amp;quot;Travelers&amp;quot; also made use of these pictures.
+The Quebec Minister of Culture &lt;a class="reference external" href="https://www.ledevoir.com/opinion/idees/545925/idees-l-utilisation-par-netflix-d-images-de-la-tragedie-de-lac-megantic-est-inadmissible"&gt;wrote publicly to Netflix to denounce this
+disgracious act&lt;/a&gt;.
+While Netflix replied &lt;a class="reference external" href="https://www.ledevoir.com/culture/cinema/546071/netflix-s-excuse-d-avoir-utilise-des-images-de-la-tragedie-de-lac-megantic"&gt;Sorry-not-sorry&lt;/a&gt;.&lt;/li&gt;
+&lt;li&gt;Netflix revenues are not taxed in Canada while they are recorded elsewhere.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Meanwhile Netflix is &lt;a class="reference external" href="https://www.ledevoir.com/opinion/chroniques/536616/un-netflix-mort-de-rire"&gt;mort de rire&lt;/a&gt;
+and &lt;a class="reference external" href="https://www.huffingtonpost.ca/2019/01/17/netflix-not-removing-lac-megantic-footage_a_23645753/?utm_hp_ref=ca-netflix"&gt;refused to remove the pictures&lt;/a&gt;.&lt;/p&gt;
+</content><category term="société"></category><category term="Québec"></category></entry><entry><title>Droit de votes des expatriés canadiens</title><link href="http://page.mi.fu-berlin.de/labbe/droitvote.html" rel="alternate"></link><published>2019-01-27T13:00:00+01:00</published><updated>2019-01-27T13:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2019-01-27:/labbe/droitvote.html</id><summary type="html">&lt;p class="first last"&gt;Retour du droit de vote des expatriés canadien&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Le 11 janvier 2019, la Cour Suprême du Canada a enteriné la nouvelle loi
+canadienne qui redonne le droit de vote aux citoyens expatriés:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://scc-csc.lexum.com/scc-csc/scc-csc/fr/item/17446/index.do?q=droit+de+vote"&gt;Frank c. Canada&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Auparavant la Cour de l'Ontario avait maintenu les &lt;a class="reference external" href="https://www.scc-csc.ca/case-dossier/info/sum-som-eng.aspx?cas=36645"&gt;restrictions sur le droit de vote des expatriés&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Cette restriction apparaissait à la Section 11 de la loi électorale du Canada
+et date de 1993.&lt;/p&gt;
+&lt;p&gt;Voici comment la nouvelle a été rapporté dans
+&lt;a class="reference external" href="https://www.ledevoir.com/politique/canada/545343/les-expatries-canadiens-n-auraient-jamais-du-perdre-leur-droit-de-vote-selon-la-cour-supreme"&gt;Le Devoir&lt;/a&gt;
+et un &lt;a class="reference external" href="https://www.ledevoir.com/opinion/idees/546204/pour-le-vote-des-expatries"&gt;article d'opinion&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Voici un article en anglais dans le &lt;a class="reference external" href="https://www.huffingtonpost.ca/2019/01/11/canadian-expat-voting-rights_a_23640412/"&gt;Huffington Post&lt;/a&gt;.&lt;/p&gt;
+</content><category term="Québec"></category><category term="Politique"></category><category term="Canada"></category></entry><entry><title>Publish OpenAccess</title><link href="http://page.mi.fu-berlin.de/labbe/openaccess.html" rel="alternate"></link><published>2019-01-27T13:00:00+01:00</published><updated>2019-01-27T13:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2019-01-27:/labbe/openaccess.html</id><summary type="html">&lt;p class="first last"&gt;About journals going open access&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Here is a recent article that appeared in Le Devoir about
+the &lt;a class="reference external" href="https://www.ledevoir.com/societe/education/546298/rebellion-contre-une-revue-predatrice"&gt;mass resignation&lt;/a&gt;
+of the Editorial Board of the Journal of Informetrics.
+The next day, they lauched the journal &amp;quot;Quantitative Science Studies&amp;quot;.
+A professor at the Université de Montréal is now the interim Editor in chief.
+The journal is published jointly by the MIT Press and received
+support from the German National Library of Science and Technology.&lt;/p&gt;
+&lt;p&gt;Previously, the editorial board of the Journal of Algebraic Combinatorics also
+flipped to create the journal &amp;quot;Algebraic Combinatorics&amp;quot;.&lt;/p&gt;
+</content><category term="math"></category><category term="recherche"></category><category term="science"></category></entry><entry><title>Revue 2018 du Devoir -- Relation Canada vs Québec</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2018_relation.html" rel="alternate"></link><published>2018-07-15T16:40:00+02:00</published><updated>2018-07-15T16:40:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2018-07-15:/labbe/devoir_2018_relation.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2018 des articles du Devoir sur les relations Canada vs Québec&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Voici les articles concernant les relations Canada vs Québec qui m'ont
+intéressés.&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="grogne-au-sujet-du-transfert-de-25-millions-dartefacts-historiques-a-ottawa"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/culture/actualites-culturelles/513574/grogne-au-sujet-du-transferts-de-25-millions-d-artefacts-historiques-a-ottawa"&gt;Grogne au sujet du transfert de 25 millions d’artefacts historiques à Ottawa&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Une ville comme Ottawa qui subtilise les artéfacts du reste du Canada: un geste colonialiste?&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="parcs-canada-et-la-statue-de-la-discorde"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://www.ledevoir.com/politique/quebec/532068/un-canadien-errant"&gt;Parcs Canada et la statue de la discorde&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;This is how you rewrite history, by denying it.&lt;/p&gt;
+&lt;p&gt;The Federal Organisation Parc Canada refuses to put a Statue commemorating the 225th anniversary of the _First_ Parliament of Lower-Canada (75 years before the Federation of the Dominion in 1867) where it actually was, to inform citizens and tourists that it was there. Instead, it should now be in front of the current Assemblée Nationale.&lt;/p&gt;
+&lt;p&gt;Reason: It does not fit with the &amp;quot;Theme of the Parc&amp;quot; which is the United Canadas 1840-1867 (notice the plural) which was to implement the assimilation of the French Canadians, a people &amp;quot;with no literature and no history&amp;quot; (said Lord Durham main supporter of the Union).&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="Politique"></category><category term="société"></category></entry><entry><title>Revue 2018 du Devoir -- Langue</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2018_langue.html" rel="alternate"></link><published>2018-07-15T16:30:00+02:00</published><updated>2018-07-15T16:30:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2018-07-15:/labbe/devoir_2018_langue.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2018 des articles du Devoir sur la langue&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Voici une liste d'article concernant la langue que j'ai aimé&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="des-bancs-d-ecole-au-banc-des-accuses-le-masculin-destitue"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://www.ledevoir.com/opinion/idees/513339/reponse-du-chroniqueur"&gt;Des bancs d'école au banc des accusés, le masculin destitué&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Un article article sur le débat sur les genres en langue française.&lt;/p&gt;
+&lt;p&gt;C'est une réplique de l'argument: &amp;quot;comme on l’entend souvent, qu’il n’y a pas d’équivalence entre le genre grammatical et le genre des personnes, puisqu’une femme peut être un assassin et un homme une personne.&amp;quot;.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="éducation"></category><category term="langue"></category></entry><entry><title>Revue 2018 du Devoir -- Politique</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2018_politique.html" rel="alternate"></link><published>2018-07-15T16:00:00+02:00</published><updated>2018-07-15T16:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2018-07-15:/labbe/devoir_2018_politique.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2018 des articles du Devoir sur la politique&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Voici une liste d'article concernant la politique en général.&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="catalogne-quand-la-primaute-du-droit-a-le-dos-large"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://www.ledevoir.com/opinion/idees/511974/catalogne-quand-la-primaute-du-droit-a-le-dos-large"&gt;Catalogne: quand la primauté du droit a le dos large&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Un texte d’un étudiant en droit sur la primauté du droit dans le contexte de l’indépendance en Catalogne.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="penser-la-gauche-autrement"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/518048/penser-la-gauche-autrement"&gt;Penser la gauche autrement&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Un texte donnant des extraits d'un pamphlet sur le sujet.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="Politique"></category></entry><entry><title>Introduction to Sage and Polyhedral Computations</title><link href="http://page.mi.fu-berlin.de/labbe/sageosna.html" rel="alternate"></link><published>2018-07-04T17:00:00+02:00</published><updated>2018-07-04T17:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2018-07-04:/labbe/sageosna.html</id><summary type="html">&lt;p class="first last"&gt;A reference page for the tutorials&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;This page contains the relevant links and files for the
+introduction sessions of July 4-5-6 2018 at the University of Osnabrück.&lt;/p&gt;
+&lt;div class="section" id="sage-jupyter-notebooks"&gt;
+&lt;h2&gt;Sage Jupyter Notebooks&lt;/h2&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/First_steps_in_Sage.ipynb"&gt;First steps in Sage&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/First_steps_in_Sage_Solution.ipynb"&gt;First steps in Sage -- Solution&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/introduction_to_imperative_programming.ipynb"&gt;Introduction to imperative programming&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/introduction_to_imperative_programming--Solution.ipynb"&gt;Introduction to imperative programming -- Solution&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/python_object_oriented.ipynb"&gt;Python object oriented&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/object_oriented_python--Solution.ipynb"&gt;Python object oriented -- Solution&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/Polytope_playground.ipynb"&gt;Polytope Playground&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/introPolytopesEng.ipynb"&gt;Introduction to Polytopes&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="links-to-relevant-pages"&gt;
+&lt;h2&gt;Links to relevant pages&lt;/h2&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://doc.sagemath.org/html/en/index.html"&gt;Sage Documentation&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://page.mi.fu-berlin.de/labbe/polytope.html"&gt;Draw polytopes in tikz&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://doc.sagemath.org/html/en/thematic_tutorials/geometry/polyhedra_tutorial.html"&gt;Recent tutorial on polyhedral geometry in Sage&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://groups.google.com/forum/#!forum/sage-support"&gt;Sage Support Google Group&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://ask.sagemath.org/questions/"&gt;Ask Sage&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://groups.google.com/forum/#!forum/sage-devel"&gt;Sage Development Google Group&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://doc.sagemath.org/html/en/developer/"&gt;Sage Developer's Guide -- Writing code for Sage&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="éducation"></category><category term="math"></category><category term="recherche"></category><category term="Sage"></category></entry><entry><title>Le Devoir -- Les archives sont disponibles</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_archive.html" rel="alternate"></link><published>2017-07-30T20:00:00+02:00</published><updated>2017-07-30T20:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2017-07-30:/labbe/devoir_archive.html</id><summary type="html">&lt;p class="first last"&gt;Le Devoir -- Archives en ligne&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Depuis un certain temps, les archives du devoir sont disponibles en ligne sur
+le site de la Bibliothèque et Archives Nationales du Québec &lt;a class="reference external" href="http://collections.banq.qc.ca/ark:/52327/2759738"&gt;ici&lt;/a&gt;.&lt;/p&gt;
+</content><category term="Québec"></category><category term="Politique"></category></entry><entry><title>Revue 2017 du Devoir -- Relation Canada vs Québec</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2017_relation.html" rel="alternate"></link><published>2017-07-30T16:40:00+02:00</published><updated>2017-07-30T16:40:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2017-07-30:/labbe/devoir_2017_relation.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2017 des articles du Devoir sur les relations Canada vs Québec&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Voici les articles concernant les relations Canada vs Québec qui m'ont
+intéressés.&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="genocide-dites-vous"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/international/actualites-internationales/494574/genocide-dites-vous"&gt;Génocide, dites-vous...&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Personne n'est à l'abri des génocides, pas même le Canada, selon ce juge
+retraité. Ce commentaire fait suite à la sortie de Andrew Potter contre la
+société québécoise.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="mcgill-et-potter-le-symptome-du-declin-des-universites"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/education/494971/l-affaire-potter-symptome-du-declin-des-universites"&gt;McGill et Potter: le symptôme du déclin des universités&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Autre texte sur la sortie de Potter dans Maclean: &amp;quot;Le problème que soulève son
+intervention délirante n’est pas celui de la liberté d’expression — car il peut
+bien écrire ce qu’il veut dans les feuilles de chou de son choix —, mais bien
+celui que ses propos sont incompatibles avec le poste qu’il occupait : il
+n’était plus commentateur politique dans un journal anglophone qui doit bien
+faire plaisir à ses lecteurs, mais directeur d’un centre universitaire censé
+étudier la société canadienne, ce qui est tout à fait différent.&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="le-canada-de-2017-toujours-anti-francophones"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/504925/le-canada-de-2017-toujours-anti-francophones"&gt;Le Canada de 2017 toujours anti-francophones&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Un texte décrivant les situations asymétriques que vivent les
+francophones hors-Québec au Canada.&lt;/p&gt;
+&lt;p&gt;&amp;quot;En matière linguistique, l’Acte de l’Amérique du Nord britannique, dont on
+soulignait les 150 ans de son entrée en vigueur, aura surtout servi à protéger
+les écoles anglaises du Québec. Sachant que les autres provinces, toutes sans
+exception, adoptèrent entre 1870 et 1912 des lois bannissant le français de l’enseignement, et ce, pendant des décennies.&amp;quot;&lt;/p&gt;
+&lt;p&gt;La province de Colombie-Britannique a utilisé une loi de 1731 pour invalidé
+des preuves parce qu'elles étaient écrites en français.&lt;/p&gt;
+&lt;p&gt;&amp;quot;En octobre 2015, la Cour suprême de Colombie-Britannique donnait raison à
+Rose-des-Vents. Acharnée, la province a aussitôt interjeté appel. Multipliant
+les obstructions dans son autre procès contre le Conseil scolaire (CSF), la
+Colombie-Britannique en est venue en juin 2012 à invoquer — avec succès — une
+loi coloniale anglaise datant de 1731 pour faire déclarer irrecevables les
+milliers de pages soumises en preuve par le CSF parce qu’elles étaient… en
+français.&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="les-liberaux-voteront-contre-lexigence-du-bilinguisme-a-la-cour-supreme"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/511196/bilinguisme-a-la-cour-supreme-pas-possible-sans-amender-la-constitution"&gt;Les libéraux voteront contre l’exigence du bilinguisme à la Cour suprême&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Plusieurs combats politiques doivent avoir lieux pour faire en sorte d'avoir des juges francophones à la cour suprême. Puisque les interprètes &amp;quot;interprètent&amp;quot;, ils peuvent faire des changements de sens et cela affecte la compréhension des juges. À chaque gouvernement ce combat est à recommencer et il faut constamment se battre afin d'avoir droit à un système de justice en français au Canada, alors qu'il se dit bilingue.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="chronique-du-bonjour-hi-ordinaire"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/505246/chronique-du-bonjour-hi-ordinaire"&gt;Chronique du bonjour-«hi» ordinaire&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&amp;quot;Elle le fait en anglais. Il faut parler en anglais à la gérante, semble-t-il, ce que je ferai moi aussi, je l’avoue humblement.&amp;quot;&lt;/p&gt;
+&lt;p&gt;Une petite chronique écrite avec humour sur des exemples de bilinguisme absurde pour les habitants de Montréal.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="les-francophones-et-la-societe-royale-du-canada-des-explications-simplistes"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/science-et-technologie/507303/les-francophones-et-la-societe-royale-du-canada-des-explications-simplistes"&gt;Les francophones et la Société royale du Canada: des explications simplistes&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Réplique au président de la Société royale du Canada qui disait que les francophones devraient devenir membres de la société en plus grand nombre.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="comparativement-a-la-catalogne-le-quebec-la-echappe-belle"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/509865/comparativement-a-la-catalogne-le-quebec-l-a-echappe-belle"&gt;Comparativement à la Catalogne, le Québec l’a échappé belle…&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&amp;quot;La Cour suprême, dans une décision unanime, rendue exceptionnellement au nom
+de la Cour sans qu’aucun des juges n’ajoute de remarques particulières, a
+décidé que la démocratie devait l’emporter sur le strict juridisme.&amp;quot;&lt;/p&gt;
+&lt;p&gt;La Cour suprême du Canada a donné trois principes à respecter par sa décision sur la &amp;quot;clarté référendaire&amp;quot;:&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;La Constitution n'est pas seulement un texte écrit; elle englobe les idées du fédéralisme, de la démocratie, du constitutionnalisme et la primauté du droit, ainsi que le respect des minorités.&lt;/li&gt;
+&lt;li&gt;Un vote qui aboutirait à une majorité claire au Québec en faveur de la sécession, en réponse à une question claire, conférerait au projet de sécession une légitimité démocratique que tous les autres participants à la Confédération auraient l’obligation de reconnaître.&lt;/li&gt;
+&lt;li&gt;Il incomberait aux acteurs politiques de déterminer le contenu des négociations et le processus à suivre. La conciliation des divers intérêts constitutionnels légitimes relève nécessairement du domaine politique plutôt que du domaine judiciaire, précisément parce que cette conciliation ne peut être réalisée que par le jeu des concessions réciproques qui caractérise les négociations politiques. Dans la mesure où les questions abordées au cours des négociations seraient politiques, les tribunaux, conscients du rôle qui leur revient dans le régime constitutionnel, n’auraient aucun rôle de surveillance à jouer.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="Politique"></category><category term="société"></category></entry><entry><title>Revue 2017 du Devoir -- Langue</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2017_langue.html" rel="alternate"></link><published>2017-07-30T16:30:00+02:00</published><updated>2017-07-30T16:30:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2017-07-30:/labbe/devoir_2017_langue.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2017 des articles du Devoir sur la langue&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Voici une liste d'article concernant la langue que j'ai aimé&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="la-force-de-langlicisme"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/497998/la-force-de-l-anglicisme"&gt;La force de l’anglicisme&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&amp;quot;Par exemple, un « winner » gagne certainement plus qu’un « gagnant », d’autant
+plus qu’il se dénomme dans la langue du plus fort. « Foodie » rend désuets «
+gourmet » et « gastronome », des mots pourtant très justes et parfaitement
+appropriés. « Weird » est plus bizarre que « bizarre », comme « moron »
+désignerait un degré de plus dans l’idiotie que « niaiseux » ou « imbécile ».&amp;quot;&lt;/p&gt;
+&lt;p&gt;Le texte est très relié au livre de Hagège &amp;quot;Contre la pensée unique&amp;quot;.&lt;/p&gt;
+&lt;p&gt;&amp;quot;Ces nouveaux anglicismes nous font perdre la trace du mot français équivalent
+qui, avant de sombrer dans l’oubli, subit une dure dévaluation. La dépréciation
+consentie de notre langue nous prédispose à aimer davantage la culture
+hégémonique d’où viennent les mots empruntés et qui profite d’un renforcement
+systématique : on s’habitue à l’usage de ces mots d’une culture envahissante,
+qui en retour devient encore plus attirante.&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="french-syntax-is-in-corruptible"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://itre.cis.upenn.edu/~myl/languagelog/archives/002587.html"&gt;French syntax is (in)corruptible&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Un texte sur l'origine de la citation &amp;quot;Ce qui n'est pas clair n'est pas français&amp;quot;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="en-francais-le-genre-na-pas-de-sexe"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/483679/la-replique-en-francais-le-genre-n-a-pas-de-sexe"&gt;En français, le genre n’a pas de sexe&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Ce texte est une réplique à un autre texte, expliquant que le genre des mots ne
+serait pas relié à la dualité mâle/femelle. On peut quand même argumenter que
+la prédominance du masculin sur le féminin peut avoir un effet sur les pensées
+des gens.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="malaysia-drops-english-language-teaching"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="https://www.theguardian.com/world/2009/jul/10/malaysia-tefl"&gt;Malaysia drops English language teaching&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Citation: &amp;quot;The government is convinced that science and maths need to be taught
+in a language that will be easily understood by students, which is Bahasa Malay
+in national schools, Mandarin in Chinese schools and Tamil in Tamil schools.&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="éducation"></category><category term="langue"></category></entry><entry><title>Revue 2017 du Devoir -- Politique</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2017_politique.html" rel="alternate"></link><published>2017-07-30T16:00:00+02:00</published><updated>2017-07-30T16:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2017-07-30:/labbe/devoir_2017_politique.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2017 des articles du Devoir sur la politique&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Voici une liste d'article concernant la politique en général.&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="quebec-et-ses-rives-coloniales"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/503129/quebec-et-ses-rives-coloniales"&gt;Québec et ses rives coloniales&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&amp;quot;C’est ainsi qu’à Québec, ville pourtant maritime et fluviale, le fleuve est
+avant tout « majestueux » pour la bonne raison qu’il demeure inaccessible à la
+population, la plupart de ses usages autres que celui de panorama étant devenus
+impensables ou hors d’atteinte.&amp;quot;&lt;/p&gt;
+&lt;p&gt;Un texte discutant de l'histoire riveraine de Québec.&lt;/p&gt;
+&lt;p&gt;&amp;quot;Bien entendu, la gestion du port relève tout simplement d’Ottawa. Cependant,
+le port de Québec n’est pas un port comme les autres. Il s’agit d’un symbole
+impérial fort situé dans la ville même où fut écrasé l’Empire français
+d’Amérique, à l’instar de la Citadelle, du Manège militaire et des plaines
+d’Abraham. Grâce à ces puissants points d’ancrage, Ottawa impose une présence
+canadienne massive – succédant à la présence britannique – au coeur même de la
+capitale de sa province irrédentiste.&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="de-1867-ou-de-1982-quel-canada-feter-en-2017"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/498885/des-idees-en-revues-de-1867-ou-de-1982-quel-canada-feter-en-2017"&gt;De 1867 ou de 1982, quel Canada fêter en 2017?&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&amp;quot;Le Canada de 1867 avait probablement quelques mérites, mais certainement pas
+celui de défendre des idéaux de diversité et de démocratie. Certes, on était
+ouvert à l’immigration, mais à la condition que celle-ci soit blanche et
+chrétienne, et qu’elle provienne des îles britanniques. On connaît le sort
+réservé par le gouvernement Macdonald aux Amérindiens et aux Métis de l’ouest.
+Et ne parlons pas des Chinois, littéralement chassés de Vancouver, une fois le
+chemin de fer terminé. En 1867, la « diversité », telle que l’entend la
+ministre Joly, n’avait aucun sens.&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="effacer-cartier-ou-macdonald-de-notre-memoire-collective"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/502021/effacer-cartier-ou-macdonald-de-notre-memoire-collective"&gt;Effacer Cartier ou Macdonald de notre mémoire collective?&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Un autre texte portant sur les actions de John MacDonald et la responsabilité
+des conséquences de ses actions portées par les francophones.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="la-crise-doctobre-selon-la-cbc-leur-histoire-de-nous"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/medias/498963/la-crise-d-octobre-selon-la-cbc-leur-histoire-de-nous"&gt;La crise d’Octobre selon la CBC: leur «histoire de nous»&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&amp;quot;Le récit canadien occulte complètement le caractère éminemment démocratique et
+progressiste du mouvement souverainiste des années 1960.&amp;quot;&lt;/p&gt;
+&lt;p&gt;Une autre fois, la CBC montre son incompréhension de l'histoire du Québec et du
+Canada.&lt;/p&gt;
+&lt;p&gt;&amp;quot;Ce que la série ne dit pas, c’est que le FLQ a aussi été infiltré en
+profondeur par les services secrets canadiens, dont les agents ont incité des
+militants à commettre des actes violents et dont certains ont même posé des
+bombes directement, dans le but de justifier une répression violente de
+l’indépendantisme et d’entacher l’image du mouvement. À ceux qui trouvent que
+cela ressemble à une obscure théorie du complot, je vous invite à visionner le
+documentaire intitulé La guerre secrète contre l’indépendance du Québec,
+réalisé par Canal D, ou à lire les sections publiques des rapports des
+commissions Macdonald et Keable.&lt;/p&gt;
+&lt;p&gt;La propagande canadienne d’aujourd’hui est beaucoup plus subtile que la
+propagande nazie ou communiste du XXe siècle. Elle ne se caractérise pas
+d’abord par le martèlement de mensonges faciles à contredire, mais plutôt par
+la dissimulation de larges pans de vérité et la création de fausses
+impressions. Que la CBC décide de raconter au monde sa version tronquée de
+cette « histoire de nous » me choque, mais savoir qu’elle le fait avec l’argent
+de nos impôts me scandalise encore davantage.&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="Politique"></category></entry><entry><title>Sage Days on Polytopes</title><link href="http://page.mi.fu-berlin.de/labbe/sagedays.html" rel="alternate"></link><published>2017-03-26T17:00:00+02:00</published><updated>2017-03-26T17:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2017-03-26:/labbe/sagedays.html</id><summary type="html">&lt;p class="first last"&gt;Some notes on the Sage Days 84&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;During the &lt;a class="reference external" href="https://wiki.sagemath.org/days84"&gt;Sage Days 84&lt;/a&gt; in Olot,
+I collected the tickets concerning the polyhedron class into a meta-ticket:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://trac.sagemath.org/ticket/22420"&gt;Meta-ticket: Polyhedron: new features and known bugs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Here are some notes that I took to help me.&lt;/p&gt;
+&lt;p&gt;To build the documentation without producing the plots:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+make doc-html-no-plot
+&lt;/pre&gt;
+&lt;p&gt;This command makes a doc-clean(!).&lt;/p&gt;
+&lt;p&gt;To build only a section of the doc:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+sage -b &amp;amp;&amp;amp; sage -docbuild thematic_tutorials html
+&lt;/pre&gt;
+&lt;p&gt;You can also just select a folder.&lt;/p&gt;
+</content><category term="éducation"></category><category term="math"></category><category term="recherche"></category><category term="Sage"></category></entry><entry><title>English in Montreal : a distinct society</title><link href="http://page.mi.fu-berlin.de/labbe/montreal.html" rel="alternate"></link><published>2017-02-05T16:50:00+01:00</published><updated>2017-02-05T16:50:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2017-02-05:/labbe/montreal.html</id><summary type="html">&lt;p class="first last"&gt;Anglo Quebecers form a distinct society unto themselves&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Recently, I read the article:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://montrealgazette.com/entertainment/local-arts/stuck-in-the-middle-avec-moi-anglo-montreal-really-is-a-distinct-society"&gt;Stuck in the Middle avec moi: Anglo Montreal really is a distinct society&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Some quotes:&lt;/p&gt;
+&lt;p&gt;&amp;quot;The real reason we’re different is because we live in a French country. Oops, I
+mean province. But let’s face it. It is like another country. When I go to
+Toronto, a city I actually kind of like, I feel like I’m a tourist in a place
+that’s so different from home.&amp;quot;&lt;/p&gt;
+&lt;p&gt;&amp;quot;It is a little bizarre that my community hasn’t the slightest idea about
+what’s going on in the culture around them.&amp;quot;&lt;/p&gt;
+&lt;p&gt;This is really interesting to read, when according to my experience, most
+people that did not learn or immersed themselves in the German culture were
+coming from English speaking countries...&lt;/p&gt;
+</content><category term="Québec"></category><category term="Politique"></category><category term="société"></category><category term="langue"></category></entry><entry><title>Revue 2016 du Devoir -- Relation Canada vs Québec</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2016_relation.html" rel="alternate"></link><published>2017-02-05T16:40:00+01:00</published><updated>2017-02-05T16:40:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2017-02-05:/labbe/devoir_2016_relation.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2016 des articles du Devoir sur les relations Canada vs Québec&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Voici les articles concernant les relations Canada vs Québec qui m'ont
+intéressés.&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="scandaleux"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/463761/scandaleux"&gt;Scandaleux!&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&amp;quot;Les anglophones du Québec disposent de trois universités financées par
+l’ensemble des Québécois et par le gouvernement fédéral, depuis près de 200 ans
+pour la plus ancienne. De l’autre côté de la frontière, en 2016, les
+Franco-Ontariens crient littéralement misère, ne disposant pas même d’une
+institution universitaire francophone.&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="vive-falardeau-libre"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/culture/livres/465170/vive-falardeau-libre"&gt;Vive Falardeau libre!&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Critique d'un livre hommage à Pierre Falardeau. Selon Bernard Émond: « pour comprendre la colère de Pierre Falardeau, il faut se rappeler qu’un peuple peut survivre à des siècles de défaites et d’oppression, mais qu’il ne peut pas survivre à sa propre indifférence »&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="langue-francaise-au-quebec-juste-deux-mots"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/quebec/464907/langue-francaise-au-quebec-juste-deux-mots"&gt;Langue française au Québec: juste deux mots…&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Reflexion sur la situation du français au Québec et l'indifférence de la population.
+&amp;quot;[Q]uelle est la signification de cette propension à vouloir nommer les choses en anglais : « Barber Shop » au lieu de « Barbier »… Pour un nombre grandissant de francophones, il semble que ce soit plus prestigieux et plus puissant de le dire en anglais.&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="la-guerre-des-langues"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/international/europe/464701/entrevue-la-guerre-des-langues"&gt;La guerre des langues&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Un texte merveilleux expliquant la domination d'une certaine langue dans un milieu bilingue.
+Entrevue de Christian Rioux avec Pascale Casanova, critique littéraire.
+&amp;quot;Loin d’être un lieu de coexistence pacifique, le bilinguisme collectif est plutôt le terrain d’une véritable guerre. A fortiori si l’une de ces langues est la langue mondiale, dit Casanova. Car à travers les mots, la syntaxe, les images ou le style, ce sont ses idées, ses moeurs, sa morale que la langue dominante transmet et impose.&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="le-quebec-doit-dire-non-a-lalberta"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/quebec/462770/oleoduc-de-transcanada-le-quebec-doit-dire-non-a-l-alberta"&gt;Le Québec doit dire non à l’Alberta&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Texte d'un professeur de droit public concernant la gestion de l'industrie du pétrole par l'Alberta.
+&amp;quot;N’empêche, elle a préféré se servir des pétrodollars pour maintenir les taxes à un niveau ridiculement bas, symbolisé par l’absence d’une taxe de vente provinciale. C’est en raison de cette absence de vision à long terme qu’aujourd’hui l’Alberta est prise au dépourvu face à la chute du prix du pétrole, et non à cause du Québec ou de la péréquation.&amp;quot;
+Il explique que le Québec se retrouve perdant face à la péréquation malgré la croyance populaire.
+Il termine en montrant les complications du système fédéral concernant le fonctionnement de l'opposition au projet de TransCanada.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="multiculturel-et-non-multiculturaliste"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/quebec/462282/multiculturel-et-non-multiculturaliste"&gt;Multiculturel et non multiculturaliste&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Un texte éclairant sur la différence entre être multiculturel et
+multiculturaliste.
+Le texte est une réponse à un livre. Ce texte donne le goût de revenir au Québec et de se faire des amis qui ont immigré au Québec, enfin.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="comment-peut-on-etre-federaliste-au-quebec"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/culture/livres/470777/comment-peut-on-etre-federaliste-au-quebec"&gt;Comment peut-on être fédéraliste au Québec?&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Exactement.
+Critique de Louis Cornellier sur un essai de Jean-François Caron concernant la
+question.
+Le texte permet une saine comparaison avec d'autres situations dans le
+monde.
+&amp;quot;La thèse de Caron est éclairante, mais tendancieuse. Comme l’histoire et
+l’actualité en témoignent, l’autonomie du Québec est fragile et toujours à
+défendre. Elle ne relève pas de la normalité, mais du combat. En s’opposant à
+la pleine reconnaissance constitutionnelle de la nation québécoise, le Canada
+manifeste sa volonté de la tenir en laisse et son droit de donner et de
+reprendre à sa guise. Ne pas vivre dans un goulag n’est pas l’équivalent d’être
+libre. Le Québec mérite mieux qu’une liberté conditionnelle.&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="pas-besoin-de-parler-francais-pour-etre-bilingue"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/justice/477494/la-juge-en-chef-de-la-csc-demande-au-gouvernement-de-vite-nommer-un-nouveau-juge"&gt;Pas besoin de parler français pour être bilingue&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Selon la ministre de la justice, pour nommer un juge de la Cour Suprême devant être bilingue, il n'a pas besoin de parler français.
+&amp;quot;La ministre de la Justice, Jody Wilson-Raybould, soutient qu’une compréhension orale et écrite est suffisante pour la Cour suprême&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="gatineau-la-medecine-en-anglais"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/education/480363/gatineau-la-medecine-en-anglais"&gt;Gatineau: la médecine en anglais...&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Encore un autre argument pour montrer le processus d'assimilation au Québec où &amp;quot;il est impossible de donner des cours en français de façon rapide&amp;quot;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="la-voix-du-quebec"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/justice/477657/cour-supreme-la-voix-du-quebec"&gt;La voix du Québec&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Explication de certains processus de nomination à la Cour Supérieure et Suprême.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="des-exigences-de-bilinguisme-qui-laissent-perplexe"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/justice/477160/des-exigences-de-bilinguisme-qui-laissent-perplexe"&gt;Des exigences de bilinguisme qui laissent perplexe&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;C'est difficile à croire que le bilinguisme forme un obstacle insurmontable pour les plus hautes sphères du Droit au Canada.
+Simplement un autre texte qui démontre i'inégalité français-anglais au Canada.&lt;/p&gt;
+&lt;p&gt;&amp;quot;Est-ce à dire que les prochains juges de la Cour suprême n’auront pas toutes les compétences nécessaires pour bien effectuer leur travail et respecter les deux communautés de langue officielle ? Est-ce à dire que vous n’estimez pas essentiel qu’ils soient capables de s’exprimer à l’oral dans les deux langues officielles ?&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="triste-deni"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/479327/consultation-sur-les-langues-officielles-triste-deni"&gt;Triste déni&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Cet article me met en colère.
+&amp;quot;Ensuite, il y a quelque chose de pénible à constater qu’à Ottawa le bilinguisme officiel consiste la plupart du temps, pour les francophones, à changer de langue à chaque phrase et, pour les anglophones, à parler simplement en anglais en se fiant aux interprètes et au traducteur automatique que la plupart des francophones ont dans le cerveau…&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="il-y-a-70-ans-mackenzie-king-devenait-le-premier-citoyen-canadien"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/488282/il-y-a-70-ans-mackenzie-king-devenait-le-premier-citoyen-canadien"&gt;Il y a 70 ans, Mackenzie King devenait le premier citoyen canadien&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Avant, il y avait des Anglais pis des Canadiens, c'est-à-dire les francophones.
+Ça explique un peu la sociologie du Canada, ses deux solitudes.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="Politique"></category><category term="société"></category></entry><entry><title>Revue 2016 du Devoir -- Langue</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2016_langue.html" rel="alternate"></link><published>2017-02-05T16:30:00+01:00</published><updated>2017-02-05T16:30:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2017-02-05:/labbe/devoir_2016_langue.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2016 des articles du Devoir sur la langue&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Voici une liste d'article concernant la langue que j'ai aimé&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="lautre-kerouac"&gt;
+&lt;h2&gt;&lt;a class="reference internal" href="#lautre-kerouac"&gt;L’autre Kerouac&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Jack Kérouac avait écrit en français. Il écrivait en joual bien avant Michel
+Tremblay et ses écrits étaient très peu accessibles.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="la-langue-melee-de-marc-cassivi"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/culture/livres/465816/la-langue-melee-de-marc-cassivi"&gt;La langue mêlée de Marc Cassivi&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Une critique assez virulente d'un pamphlet écrit par Marc Cassivi sur la situation du français au Québec.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="la-langue-miracle-et-combat"&gt;
+&lt;h2&gt;&lt;a class="reference internal" href="#la-langue-miracle-et-combat"&gt;La langue, miracle et combat&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Critique d'un essai de Louis Cornellier intitulé: 'Le point sur la langue. Cinquante essais sur le français en situation'.
+Un des points de l'essai: &amp;quot;une langue s’affaiblit lorsqu’elle perd sa nécessité socio-économique et le remède alors ne peut être que politique&amp;quot;.
+Ce point contraste avec les gens qui disent que l'influence du français baisse parce qu'on fait des fautes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="le-regard-bienveillant-dun-quebecois-anglophone-qui-sest-exile"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/culture/cinema/469695/documentaire-le-regard-bienveillant-d-un-quebecois-anglophone-qui-s-est-exile"&gt;Le regard bienveillant d’un Québécois anglophone qui s’est exilé&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Critique d'un documentaire mettant en vedette un anglo-québécois et sa relation avec le Québec et le français.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="les-cajuns-de-la-louisiane-renouent-avec-le-francais"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/international/etats-unis/461981/les-cajuns-de-la-louisiane-renouent-avec-le-francais"&gt;Les Cajuns de la Louisiane renouent avec le français&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&amp;quot;Quatre générations ont suffi pour réaliser l’assimilation : des baby-boomers se souviennent de leurs grands-parents qui ne parlaient que le français et de leurs parents qui le parlaient la plupart du temps. Eux, ils utilisent principalement l’anglais, tandis que leurs enfants ne parlent que la langue de Shakespeare.&amp;quot;
+Malgré tout, les cajuns ont initiés plusieurs projets linguistiques pour raviver le français en Louisiane.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="le-francais-langue-de-la-diplomatie"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/international/actualites-internationales/478351/le-francais-langue-de-la-diplomatie"&gt;Le français, langue de la diplomatie?&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Un bon texte pour expliquer pourquoi apprendre le français historiquement.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="contre-langlicisation-de-la-didactique-du-francais"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/education/472817/contre-l-anglicisation-de-la-didactique-du-francais"&gt;Contre l’anglicisation de la didactique du français&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Voici un exemple de perte d'usage du français dans la vie de tous les jours.
+L'article présente aussi des arguments parlant de l'influence de la langue d'enseignement d'une science sur la personne.&lt;/p&gt;
+&lt;!-- _ `La langue, miracle et combat` : http://www.ledevoir.com/culture/livres/471368/essai-la-langue-miracle-et-combat --&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="éducation"></category><category term="langue"></category></entry><entry><title>Revue 2016 du Devoir -- Société</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2016_societe.html" rel="alternate"></link><published>2017-02-05T16:00:00+01:00</published><updated>2017-02-05T16:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2017-02-05:/labbe/devoir_2016_societe.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2016 des articles du Devoir sur la société&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Voici une liste d'article concernant des aspects de la société qui m'ont
+intéressés.&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="le-mythe-du-vegetarisme"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/consommation/466986/le-mythe-du-vegetarisme"&gt;Le mythe du végétarisme&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&amp;quot;Et si tous ces végétariens avaient tort ?&amp;quot;
+Un texte bien structuré, mais sans trop de références.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="les-villes-invitees-a-repenser-leurs-rues"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/villes-et-regions/465501/fillette-happee-a-laval-les-villes-invitees-a-repenser-leurs-rues"&gt;Les villes invitées à repenser leurs rues&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&amp;quot;Dans les années 1950 et 1960, le principe courant était de dire que s’il n’y a
+pas de trottoir, c’est parce qu’il n’y a pas de piétons. On partait du principe
+que, dorénavant, on se déplaçait en voiture&amp;quot;
+Le décès d'une fillette de 7 ans à Laval a peut-être lancé une réflexion sur
+l'aménagement des rues de nos villes.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="maths-isnt-the-problem-the-way-its-taught-is"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.theguardian.com/commentisfree/2016/mar/11/maths-isnt-problem-curriculum-lacking-imagination"&gt;Maths isn’t the problem - the way it’s taught is&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Réponse de Tim Gowers dans un débat sur l'utilité des mathématiques.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="le-recteur-de-ludem-guy-breton-estime-quil-livre-la-marchandise"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/education/465503/conditions-salariales-le-recteur-de-l-udem-guy-breton-estime-qu-il-livre-la-marchandise"&gt;Le recteur de l’UdeM, Guy Breton, estime qu’il «livre la marchandise»&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Ce ne sont pas seulement les étudiants qui paie le salaire du recteur mais la
+société en entier. Et probablement que c'est le fait que ton salaire soit considéré trop élevé qui cause problème. L'argument du recteur est fallacieux.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="perdre-le-nord"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/environnement/actualites-sur-l-environnement/464258/des-idees-en-revues-perdre-le-nord"&gt;Perdre le Nord&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Un beau texte d'opinion sur le développement et la protection du Nord
+québécois.&lt;/p&gt;
+&lt;p&gt;&amp;quot;Ce territoire n’existe pas, car les ressources naturelles n’ont, du point de
+vue de l’économie capitaliste, de valeur qu’une fois transformées en
+marchandises destinées à l’échange. Tant que les rivières n’ont pas été
+aménagées, tant que le minerai n’a pas été extrait, tant que les arbres n’ont
+pas été abattus, tant que ces éléments n’ont pas été saisis par le mouvement de
+la valorisation, il ne peut exister aucune richesse, car ici la richesse ne se
+mesure ni en maturité des arbres, ni en diversité de poissons, ni en pureté de
+l’air, mais toujours en espèces sonnantes et trébuchantes. La nature a horreur
+du vide, dit-on, or la logique du capital, en faisant le vide autour de soi,
+montre pour sa part toute l’horreur que lui inspire la nature.&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="un-oscar-pour-les-cesar"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/international/actualites-internationales/461579/un-oscar-pour-les-cesar"&gt;Un Oscar pour les César&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Christian Rioux oppose la cérémonie des Césars et celle des Oscars du point de vue de la représentation culturelle.
+Il est intéressant de noter les différences entre les industries du cinéma français et américain.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="se-faire-entendre"&gt;
+&lt;h2&gt;&lt;a class="reference internal" href="#se-faire-entendre"&gt;Se faire entendre&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Une lettre d'opinion montrant que le bureau du premier ministre Trudeau répond de façon personalisée au lettre qui lui sont envoyées.
+L'auteure conclut à l'aide d'une citation de Dominique Pestre, voulant que la clé du changement est entre les mains des citoyens.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="le-canada-resserrera-les-regles-sur-les-exemptions-de-visas-dans-un-mois"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/463039/le-canada-ressert-les-regles-sur-les-exemptions-de-visas-dans-un-mois"&gt;Le Canada resserrera les règles sur les exemptions de visas dans un mois&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Pour entrer au Canada, les Européens ont maintenant besoin d'un visa coûtant 7 dollars.
+Cette mesure se présente comme un moyen d'automatiser et de mieux gérer la menace terroriste.
+Une belle conséquence: faire payer tous les 3 millions de voyageurs par année au Canada pour quelques terroristes et augmenter la quantité de bureaucratie.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="la-competence-avant-le-recit"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/education/462610/la-replique-enseignement-de-l-histoire-la-competence-avant-le-recit"&gt;La compétence avant le récit&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Critique d'une doctorante en didactique de l'UdeM concernant l'enseignement de l'Histoire &amp;quot;à la Pellerin&amp;quot;.
+&amp;quot;[Concernant les cours de mathématiques] est-ce de savoir toujours calculer l’aire des parallélogrammes qui importe ou d’avoir développé des compétences intellectuelles qui permettent à tous, et non seulement aux quelques élèves qu’un prof aura réussi à convaincre au cours de sa carrière de devenir « mathémateux », d’avoir une logique, un sens du raisonnement, une rigueur scientifique ?&amp;quot;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="message-personnel"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/quebec/461621/un-depart-message-personnel"&gt;Message personnel&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Dernier éditorial de Josée Boileau au Devoir.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="autoportrait-de-limmigrant-en-quebecois"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/culture/livres/461521/autoportrait-de-l-immigrant-en-quebecois"&gt;Autoportrait de l’immigrant en Québécois&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Critique de Louis Cornellier sur l'essai &amp;quot;Rhapsodie québécoise Itinéraire d’un enfant de la loi 101&amp;quot; écrit par Akos Verboczy un québécois d'origine hongroise ayant grandi sous la loi 101 au Québec.
+&amp;quot;Verboczy et sa famille ont vite compris « que le Canada était le seul endroit sur la planète où parler français n’avait rien de prestigieux ».&amp;quot;
+« On ne peut pas vivre sur un même territoire, être fragmentés en communautés culturelles, en clientèles électorales, avec pour seul lien notre situation de contribuables consommateurs, sans renforcer la suspicion et l’intolérance entre la société d’accueil et les nouveaux arrivants, conclut Verboczy. Non seulement il faut pouvoir parler une même langue, mais il faut aussi avoir des choses à se dire, avoir des références communes. »&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="barrette-mobilise-64-millions-pour-inaugurer-la-concurrence-en-sante"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/sante/462086/barrette-mobilise-64-millions-pour-inaugurer-la-concurrence-en-sante"&gt;Barrette mobilise 64 millions pour inaugurer la «concurrence» en santé&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Texte décrivant la néolibéralisation pure et simple du système de santé au Québec.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="les-chicago-boys-encore-en-mission"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/economie/actualites-economiques/461984/la-replique-paradis-fiscaux-les-chicago-boys-encore-en-mission"&gt;Les «Chicago Boys» encore en mission&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Réplique de Hermel Cyr à un texte de Pierre Simard, professeur à l'ENAP.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="vendre-du-chocolat-pour-sacheter-des-pupitres"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/education/462312/vendre-des-chocolats-pour-s-acheter-des-pupitres"&gt;Vendre du chocolat pour s’acheter des pupitres&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;C'est un texte simplement incroyable: certaines écoles du Québec doivent demander la charité pour acheter des pupitres.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="citoyen-du-monde-mythes-et-realites"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/478345/citoyen-du-monde-mythes-et-realites"&gt;Citoyen du monde: mythes et réalités&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Ce texte me vole les mots de la bouche. J'ai à très peu près les mêmes
+sentiments, les mêmes pensées.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="les-ecoles-font-de-bons-incubateurs-a-radicaux"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/478174/les-ecoles-font-de-bons-incubateurs-a-radicaux"&gt;Les écoles font de bons incubateurs à radicaux&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Ce texte montre bien comment des jeunes qui ne connaissent pas bien les religions sont faciles à manipuler.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="fondation-de-montreal-la-grande-aventure-mystique"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/montreal/478279/la-fondation-de-montreal-1-4-raviver-la-foi-grace-a-la-nouvelle-jerusalem"&gt;Fondation de Montréal: la grande aventure mystique&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Une histoire qu'on oublie et qui montre la différence dans notre relation à la religion.
+C'est la même qu'ailleurs, mais qui est différente pour la société québécoise.
+Le catholicisme québécois est bien différent du catholicisme européen ou sud-américain.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="le-cancer-olympique"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/sports/actualites-sportives/477241/le-cancer-olympique"&gt;Le cancer olympique&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Voici un opinion bien sensé sur les olympiques et ce que ça représente.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="de-1866-a-nos-jours-les-racines-francophones-de-black-lives-matter"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/international/etats-unis/476662/de-1866-a-nos-jours-les-racines-francophones-de-black-lives-matter"&gt;De 1866 à nos jours: les racines francophones de Black Lives Matter&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Une discussion sur les relations des médias francophones en Louisiane lors de la reconstruction au XIXe siècle aux USA.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="comment-franciser-un-immigrant"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/478986/comment-franciser-un-immigrant"&gt;Comment franciser un immigrant&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Un autre témoignage de bonne intégration des immigrants.
+J'ai déjà parlé de l'histoire d'un immigrant hongrois et sa famille, voici donc une autre histoire.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="la-france-se-donne-le-droit-a-la-deconnexion"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/488269/travail-la-france-se-donne-le-droit-a-la-deconnexion"&gt;La France se donne le droit à la déconnexion&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;La France innove en donnant le droit à la déconnexion numérique chez les travailleurs.&lt;/p&gt;
+&lt;!-- _ `Se faire entendre` : http://www.ledevoir.com/politique/canada/461516/se-faire-entendre --&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="éducation"></category><category term="société"></category></entry><entry><title>Revue 2016 du Devoir -- Affaires Autochtones</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2016_autochtones.html" rel="alternate"></link><published>2017-02-05T15:00:00+01:00</published><updated>2017-02-05T15:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2017-02-05:/labbe/devoir_2016_autochtones.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2016 des articles du Devoir sur les affaires autochtones&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Voici une liste d'articles publiés dans le Devoir que j'ai particulièrement appréciés reliés de près ou de loin aux affaires autochtones.&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="nous-sommes-tous-des-sauvages"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/culture/livres/464028/nous-sommes-tous-des-sauvages"&gt;Nous sommes tous des sauvages&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Critique et comparaison du livre 'Le revenant'. Le livre semble contenir moins d'amalgames et de controverses quant à son contenu historique.
+La version hollywoodienne est modifiée, on ne sait trop pourquoi.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="vie-en-foret-avec-leonardo-dicaprio"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/culture/cinema/464107/ceremonie-des-oscar-vie-en-foret-avec-leonardo-dicaprio"&gt;Vie en forêt avec Leonardo DiCaprio&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Lettre à la fondation Leonardo DiCaprio concernant le film 'Le revenant' et l'image fait des coureurs des bois français.
+'Il est regrettable qu’à partir de la réputation contestable faite à ce seul individu, l’unique représentation que The Revenant fasse des « coureurs des bois » francophones soit celle de voleurs, qui pendent les Amérindiens et qui violent leurs femmes et leurs filles !'
+'Trop souvent Hollywood a bâti ses films en déformant l’Histoire, glorifiant ses good guys californiens aux dépens des méchants sauvages, des Japonais, des Arabes et tutti quanti ! Et maintenant, les « méchants Canadiens français » ?'&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="lamerique-selon-hollywood"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/international/etats-unis/464640/l-amerique-selon-hollywood"&gt;L’Amérique selon Hollywood&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Une critique de Christian Rioux sur le film 'The Revenant'.
+&amp;quot; Il n’est évidemment pas question de prétendre que nos « voyageurs » ont été des saints, mais on se demande comment ils auraient pu commercer sur des territoires aussi vastes où ils étaient très minoritaires en exerçant une telle violence. Au contraire, comme l’a montré l’historien Denis Vaugeois, le commerce des fourrures demandait des talents de négociateur et la connaissance des langues autochtones.&amp;quot;
+Un bon texte avec de bonnes références sur le sujet.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="la-commission-de-verite-et-reconciliation-dans-loeil-de-garneau"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/le-devoir-de-philo/461626/devoir-d-histoire-la-commission-de-verite-et-reconciliation-dans-l-oeil-de-garneau"&gt;La Commission de vérité et réconciliation dans l’oeil de Garneau&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Le devoir de Philo. Regard de Garneau sur la commission de vérité et réconciliation.
+Un texte très intéressant.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="des-amerindiens-si-proches"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/montreal/478483/la-fondation-de-montreal-3-4-des-amerindiens-si-proches"&gt;Des amérindiens si proches&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Dans cette séries d'articles, le Devoir jette un regard sur la fondation de
+Montréal. Celui-ci concerne les relations tissées serrées entre les français et
+les amérindiens, expliquant bien le métissage entre Français
+et Amérindiens.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="the-true-revenants-of-a-buried-past"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://activehistory.ca/2016/09/the-true-revenants-of-a-buried-past/"&gt;The True Revenants of a Buried Past&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Encore le Revenant et comment ils réécrivent l'histoire américaine.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="Politique"></category><category term="société"></category></entry><entry><title>Who are Quebecers? Le film "Empreinte" -- "Footprint"</title><link href="http://page.mi.fu-berlin.de/labbe/empreinte.html" rel="alternate"></link><published>2016-12-04T21:00:00+01:00</published><updated>2016-12-04T21:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-12-04:/labbe/empreinte.html</id><summary type="html">&lt;p class="first last"&gt;The footprint of native peoples on Quebecers identity&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Un documentaire à voir absolument: l'&lt;a class="reference external" href="http://lempreinte.quebec/"&gt;Empreinte&lt;/a&gt; de Carole Poliquin et Yvan Dubuc. Il y a longtemps que je lis sur l'histoire du Québec et ce film apporte beaucoup de faits souvent laissés de côté par l'Histoire. Je me fais souvent demander d'où je viens... et je me demande souvent quel héritage de mon peuple je porte avec moi. Ce documentaire porte à réflexion sur cette question.&lt;/p&gt;
+&lt;p&gt;L'entrevue de Roy Dupuis à Tout Le Monde En Parle est aussi très intéressante.&lt;/p&gt;
+&lt;p&gt;There is a documentary which is a MUST-SEE to anyone that wants to understand Quebec's culture: &lt;a class="reference external" href="http://lempreinte.quebec/"&gt;Footprint&lt;/a&gt; of Carole Poliquin et Yvan Dubuc. I have been reading for a while on the history of Québec and this film brought a lot of facts often left aside in Québec's History. I am often asked where I am from... and I often ask myself what is the heritage of my people in me. This documentary brought a lot of light about this question.&lt;/p&gt;
+&lt;p&gt;The interview (subtitled) of Roy Dupuis at Tout Le Monde En Parle is also very interesting.&lt;/p&gt;
+&lt;iframe width="560" height="315"
+src="https://www.youtube.com/embed/XzA3ait6lv4" frameborder="0"
+allowfullscreen&gt;&lt;/iframe&gt;
+&lt;p&gt;This week (December 4th 2016), there was a column in French in the French webpage of the national Canadian TV (CBC or SRC) &lt;a class="reference external" href="http://ici.radio-canada.ca/nouvelle/1003572/lempreinte-lien-canadiens-francais-autochtones-roy-dupuis"&gt;Les Siciliens, eux, ne se posent jamais de questions sur leur identité&lt;/a&gt;.&lt;/p&gt;
+</content><category term="Québec"></category><category term="Politique"></category></entry><entry><title>Bureaucracy: get a life in Germany vs Israel as a Postdoc</title><link href="http://page.mi.fu-berlin.de/labbe/bureaucratie.html" rel="alternate"></link><published>2016-12-04T13:30:00+01:00</published><updated>2016-12-04T13:30:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-12-04:/labbe/bureaucratie.html</id><summary type="html">&lt;p class="first last"&gt;Comparison of the quantities of redtape in Germany and Israel&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Since October 1, 2016, I am a postdoctoral researcher in Berlin, Germany.
+Nevertheless, I had to go through the German bureaucracy way before that date.
+I was lucky to have some experience with it and to know German.
+Once the process started I immediately thought to write down the steps and then
+compare with the process I went through in Jerusalem, Israel.&lt;/p&gt;
+&lt;p&gt;Before I start here are a few tips for Germany:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Everything is written down: read everything and bring everything to every appointment. They love paper.&lt;/li&gt;
+&lt;li&gt;If you do not know the language, try to at least use basics to show your interests in learning it. This will ease the communication (was useful when I arrived in Germany)&lt;/li&gt;
+&lt;li&gt;Always plan for the worse: when you think it is going to be settled after the appointment, it has a high chance of not being the case. This is not always your fault: a server breakdown, a faulty waiting number distributor, the employee is sick, etc.&lt;/li&gt;
+&lt;li&gt;Get many many passport pictures in many different formats.&lt;/li&gt;
+&lt;li&gt;Get a German friend to host you for the first few weeks this will ease the process by far. Hosting in the 'loose' sense: crashing on the couch, getting a mailing address, etc.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;So, here is the list of things (with long names) to do in order to get a life in Germany as a
+postdoc:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Amtliche Meldebescheinigung für die Anmeldung: Registration at the mayor's office: you need your passport, the rental agreement and now another form signed by the landlord stating that you arrived in the apartment. Go at 6-7 am to wait in line as soon as you can. Nothing is possible without that paper.&lt;/li&gt;
+&lt;li&gt;Führungszeugnis: At the same time that you get the Anmeldung, you should order an extended police certificate that proves that you did not commit any offense in Germany before. This costs 13 euros and takes two weeks to get to the university.&lt;/li&gt;
+&lt;li&gt;Register to a Health Care insurance (needs a mailing address to receive documents and card). This will give you a Social Insurance number if you never had one in Germany.&lt;/li&gt;
+&lt;li&gt;Get a Tax Payer Number at a Finanzamt if it is the first time that you have a job in Germany. This is usually an easy step, you should bring the job offer and your Anmeldung.&lt;/li&gt;
+&lt;li&gt;Open a Bank Account: You need your passport, your Anmeldung, an Address and have some persuasive arguments to tell them that you are going to get a visa soon, but you need a bank account soon (otherwise entering an vicious bureaucracy circle). While you are at it, you should get a &amp;quot;Haftpflicht insurance&amp;quot; which insures you against damage that you can eventually cause others (breaking washing machine that destroys your neighbors apartment).&lt;/li&gt;
+&lt;li&gt;Get an appointment for a medical exam at the Personal hiring department of the nearest Hospital. Go there and fill 2-3 forms and give a urine probe.&lt;/li&gt;
+&lt;li&gt;Fill in the following forms and send it to the correct person: Erklärung und Begründung zur wissenschaftlichen Qualifikationsgelegenheit im Rahmen des Beschäftigungsverhältnisses als wissenschaftliche Mitarbeiter, Erklärung über Promotionszeiten und Beschäftigungsverhältnisse, Erklärung über Vorbeschäftigungszeiten an der Freie Universität Berlin, Erklärungsbogen zur Stufenfeststellung, Personal Fragebogen, Erklärung über Pflichtversicherungszeiten in der Zusatzversorgunggemäß, Erklärung zur immatrikulation und Berufsausbildung, Erklärung auf Verurteilung 2, Neuantrag auf Überweisung der Dienstbezüge, Erklärung über anhängige Verfahren, VBL-Erklärung, Registration for Public transportation.&lt;/li&gt;
+&lt;li&gt;Go to the Personal Hiring Office to sign your contract (after making an appointment) with the following documents IN ORIGINAL: birth certificate, wedding/divorce certificate and kid birth certificates (if applicable), all university diplomas (of course in original), all other working contracts (in original), Anmeldung, TaxNumber, Bank coordinates, proof of medical exam appointment, proof of ordering of Führungszeugnis, Social number, and the tax certificates of previous jobs in Germany (if applicable). Oh! And the contract should be signed in the month &lt;em&gt;previous&lt;/em&gt; to your employment, otherwise making it impossible to hire you for the present month.&lt;/li&gt;
+&lt;li&gt;Apply to get the University keys and go get it 1 week later.&lt;/li&gt;
+&lt;li&gt;Get a university server account&lt;/li&gt;
+&lt;li&gt;Once these things are done, wake up again at 6 am, this time to get an appointment online at the Ausländerbehörde within the first 90 days of your stay to get a visa so that your pay does not get cancelled due to your then illegal length of stay without a visa.&lt;/li&gt;
+&lt;li&gt;Make sure your passport is valid long enough so that you do not need to renew it while you work: otherwise you have to got again at the mayor's office and transfer your visa (costing money and time). Then renew your passport: go to the Canadian Ambassy for the renewal, and wait 2 weeks where you can not travel or get the appointment for the visa.&lt;/li&gt;
+&lt;li&gt;Carry the proof of appointment along with your old passport when going out of Schengen in order to avoid getting further interrogation at going out and coming in.&lt;/li&gt;
+&lt;li&gt;Show the proof of appointment to your institution so that they can emit a new working contract that lasts more that 90 days.&lt;/li&gt;
+&lt;li&gt;At the Ausländerbehörde, bring passport, recent passport picture, proof of prolongation of contract, proof of health insurance, EC Karte (no payment in cash), Anmeldung and visa-formular filled.&lt;/li&gt;
+&lt;li&gt;The next day, phone the administration and go to the hiring office to sign your official contract and make a copy of your visa.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Congratulations! You have obtained a German Visa to work as a postdoc! After 2
+months of constant care and preparation.&lt;/p&gt;
+&lt;p&gt;After that, you can look for an apartment in Berlin, (good luck!). For this you
+will need (at least, and may vary): proof of income of the last 3 months (well, you realize you won't
+get an apartment within the first 3 months, do you?), Schufa-Auskunft (a proof
+that you do not owe money to banks), Proof that you not owe money to your last
+landlord, Copy of Passport and visa, Formular of interest in the apartment.&lt;/p&gt;
+&lt;p&gt;Now, let's compare with the bureaucracy in Israel. You will receive a letter of
+invitation from your institution. This is a master key.&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Bring the application form for visa, Invitation letter, passport pictures, proof of finance (in the invitation letter), passport and money to the Israel ambassy and get a visa within 30 minutes for 1 year.&lt;/li&gt;
+&lt;li&gt;Once in Israel, find an apartment, sign the lease. (Lasted 1 week for me as I got the apartment before-hand)&lt;/li&gt;
+&lt;li&gt;Go to a bank and open a bank account with your passport and visa. (Took 30 minutes)&lt;/li&gt;
+&lt;li&gt;Get a simcard for your cell phone. (Took 20 minutes)&lt;/li&gt;
+&lt;li&gt;With your passport, visa and bank account in hand, go to the university and register with your secretary and register for an health insurance, you will get a computer account, student card and your next pay in 15 days. (Took 30 minutes)&lt;/li&gt;
+&lt;li&gt;Once a year, you receive the municipality tax that you go pay at the post office.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Congratulations, with 5 working days, you could start working in Jerusalem as a
+mathematician and do all this speaking French. Yes, indeed, I could do all
+these things with french-speaking secretaries, seller, bankers, etc. I have to
+say that renewing your visa is a bit more of a struggle but goes smoothly
+nevertheless.&lt;/p&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion:&lt;/h2&gt;
+&lt;p&gt;What can we learn from this comparison? I let you draw your own consequences on
+the amount of stress and efficiency of the first months of employment. I have
+to say that all this process in both cases went smoothly which was not the case
+of most of my colleagues in both places. I was very lucky to know how to handle
+german bureaucracy and language and I had many very helpful colleagues. I decided
+to write this down in an effort to help others and also to raise consciousness
+around this cause of stress for academics.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="société"></category><category term="math"></category><category term="science"></category><category term="recherche"></category></entry><entry><title>Revue 2016 du Devoir -- Politique</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2016_politique.html" rel="alternate"></link><published>2016-09-05T22:00:00+02:00</published><updated>2016-09-05T22:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-09-05:/labbe/devoir_2016_politique.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2016 des articles du Devoir sur la politique&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Voici une liste d'article concernant la politique en général.&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="quebec-enfreint-sa-loi-pour-energie-est"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/environnement/actualites-sur-l-environnement/462849/quebec-enfreint-sa-loi-pour-energie-est"&gt;Québec enfreint sa loi pour Énergie Est&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Un texte montrant que le gouvernement de Philippe Couillard contrevient à des lois provinciales sur l'environnement en s'opposant à la soumission d'un mandat d'investigation au BAPE concernant Énergie Est.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="dou-vient-le-monsieur-de-jacques-parizeau"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/quebec/462017/d-ou-vient-le-monsieur-de-jacques-parizeau"&gt;D’où vient le «Monsieur» de Jacques Parizeau&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Michel Lemieux explique l'origine du surnom &amp;quot;Monsieur&amp;quot; de Jacques Parizeau.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="amnistie-internationale-denonce-letat-durgence"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/international/europe/462297/france-amnistie-internationale-denonce-l-etat-d-urgence"&gt;Amnistie internationale dénonce l’état d’urgence&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Suite aux attentats du 13 novembre 2015, la société française souffre de la perte de plusieurs libertés.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="richard-henry-bain-livre-un-temoignage-contradictoire"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/justice/476052/bain-se-contredit-dans-son-temoignage-en-reprenant-son-discours-politique"&gt;Richard Henry Bain livre un témoignage contradictoire&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Richard Bain a plaidé la non-responsabilité criminelle parce qu'il aurait été sous l'influence d'anti-dépresseur le soir des évènements.
+Finalement, quelques semaines plus tard, il a été reconnu coupable de la plupart des chefs d'accusation.
+Le traîtement de Bain au Québec a très peu été comme étant un terroriste car il s'est attaqué à des souverainistes.
+Un souverainiste, ou un étudiant, aurait reçu ce traîtement: seulement pour retarder le métro de Montréal durant 1 heures, certains étudiants faisaient face à des accusations de terrorisme en 2012.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="Politique"></category></entry><entry><title>When will I ever use math? What is math good for anyway?</title><link href="http://page.mi.fu-berlin.de/labbe/why-math.html" rel="alternate"></link><published>2016-09-05T22:00:00+02:00</published><updated>2016-09-05T22:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-09-05:/labbe/why-math.html</id><summary type="html">&lt;p class="first last"&gt;The habits of highly math educated people&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;As a mathematician, we are often confronted with the question:&lt;/p&gt;
+&lt;p&gt;Why did you do what? Why do you do math? What is whatever-you-are-doing good
+for?&lt;/p&gt;
+&lt;p&gt;Well, the following article was written by a mathematician and I found the
+treatment of the question quite accurate and interesting to read.&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://medium.com/&amp;#64;jeremyjkun/habits-of-highly-mathematical-people-b719df12d15e?swoff=true#.b2c244sm8"&gt;Habits of highly mathematical people&lt;/a&gt;&lt;/p&gt;
+</content><category term="éducation"></category><category term="math"></category><category term="science"></category></entry><entry><title>Bernays et les élections américaines 2016</title><link href="http://page.mi.fu-berlin.de/labbe/bernays.html" rel="alternate"></link><published>2016-09-03T20:00:00+02:00</published><updated>2016-09-03T20:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-09-03:/labbe/bernays.html</id><summary type="html">&lt;p class="first last"&gt;Bernays et la propagande en 2016&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Depuis quelques mois, je cherche à comprendre les élections américaines 2016.
+Force est de constater que les médias de masse y joue un rôle important.
+J'ai alors voulu voir si des gens avait pensé faire le lien avec les théories
+de la propagande de Bernays.&lt;/p&gt;
+&lt;p&gt;Voici &lt;a class="reference external" href="https://medium.com/&amp;#64;trentlapinski/the-state-of-propaganda-in-2016-9fb4e1cae275#.l6bb10d6h"&gt;un texte&lt;/a&gt; de Trent Lapinski sur Medium.com qui parle de l'état de la
+propagande en 2016.&lt;/p&gt;
+</content><category term="Politique"></category><category term="société"></category></entry><entry><title>Eugénie Bouchard, assimilée?</title><link href="http://page.mi.fu-berlin.de/labbe/eugenie.html" rel="alternate"></link><published>2016-09-03T20:00:00+02:00</published><updated>2016-09-03T20:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-09-03:/labbe/eugenie.html</id><summary type="html">&lt;p class="first last"&gt;Une réponse de Bock-Côté sur son article sur Bouchard&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Récemment, Mathieu Bock-Cöté a traîté Eugénie Bouchard d'assimilée.
+Mais, s'attaquer à la coqueluche du Québec au tennis n'est pas gratuit.
+Voici &lt;a class="reference external" href="http://www.journaldemontreal.com/2016/07/30/tres-breve-lecon-de-politique-linguistique-a-lusage-de-ceux-qui-ny-comprennent-pas-grand-chose"&gt;sa réplique&lt;/a&gt;.&lt;/p&gt;
+</content><category term="Québec"></category><category term="Politique"></category><category term="Canada"></category><category term="langue"></category></entry><entry><title>Claude Hagège sur l'amour des langues</title><link href="http://page.mi.fu-berlin.de/labbe/hagege.html" rel="alternate"></link><published>2016-09-03T20:00:00+02:00</published><updated>2016-09-03T20:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-09-03:/labbe/hagege.html</id><summary type="html">&lt;p class="first last"&gt;Un entrevue de CLaude Hagège sur les langues&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;&amp;quot;Les Français, qui sont fascinés par tout ce qui est américain, ne savent même
+pas qu'il y a 57 pays dans le monde où le Français est la première langue
+maternelle&amp;quot;.&lt;/p&gt;
+&lt;iframe width="560" height="315"
+src="https://www.youtube.com/embed/xzPYbXhw7nI" frameborder="0"
+allowfullscreen&gt;&lt;/iframe&gt;
+&lt;p&gt;La dernière minute est un bijou en particulier: la principale cause qui menace
+le français est la désaffection des français eux-même pour leur langue, pas
+d'autres francophones. [...] Les français sont tellement fascinés par ce qui
+n'est pas français qu'ils finissent par ne plus aimer leur langue. Et là on
+arrive à ce paradoxe: le pays où le français est le moins aimé, c'est la
+France!&lt;/p&gt;
+&lt;p&gt;La cause de la survie du français est sa diversité. L'anglais est une menace de mort pour la diversité des langues.&lt;/p&gt;
+</content><category term="Québec"></category><category term="Politique"></category><category term="langue"></category></entry><entry><title>Un montage vidéo sur Berlin</title><link href="http://page.mi.fu-berlin.de/labbe/berlin_montage.html" rel="alternate"></link><published>2016-09-03T19:00:00+02:00</published><updated>2016-09-03T19:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-09-03:/labbe/berlin_montage.html</id><summary type="html">&lt;p class="first last"&gt;A short video on Berlin sights&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Un joli vidéo sur Berlin. Rien à dire de plus que la ville est une belle
+jungle!&lt;/p&gt;
+&lt;iframe
+src="https://player.vimeo.com/video/167397366?color=ffffff&amp;title=0&amp;byline=0"
+width="640" height="360" frameborder="0" webkitallowfullscreen
+mozallowfullscreen allowfullscreen&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href="https://vimeo.com/167397366"&gt;BERLIN (CLASSIFIED)&lt;/a&gt; from &lt;a
+href="https://vimeo.com/julienpatry"&gt;Julien Patry&lt;/a&gt; on &lt;a
+href="https://vimeo.com"&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+</content><category term="urbanisme"></category></entry><entry><title>Learning to love French</title><link href="http://page.mi.fu-berlin.de/labbe/capillarity.html" rel="alternate"></link><published>2016-09-03T19:00:00+02:00</published><updated>2016-09-03T19:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-09-03:/labbe/capillarity.html</id><summary type="html">&lt;p class="first last"&gt;A story about learning French&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;“They don’t have very good capillarity,” Olivier said.&lt;/p&gt;
+&lt;p&gt;It is the story of a French guy and an American woman, and how she learned the
+language and the subtleties in French language and culture:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.newyorker.com/magazine/2016/08/08/lauren-collins-learns-to-love-in-french"&gt;Love in Translation&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Some citations:&lt;/p&gt;
+&lt;p&gt;&amp;quot;Like the presenter, I’m impressed. An excellent command of French seems like a
+superpower, the prerogative of socialites and statesmen.&amp;quot;&lt;/p&gt;
+&lt;p&gt;&amp;quot;It took Olivier three weeks and a working group of twice as many relatives to
+settle on the French text of our wedding invitation, which read, in its
+entirety, “Together with our families, we request the pleasure of your company
+at a wedding lunch.” The ideas of excellence and failure are so intimately
+linked in French that what passes for a compliment is to say that someone has
+un français châtié—a well-punished French. Olivier has fond memories of
+watching the grammarian Bernard Pivot, a national celebrity, administer the
+Dicos d’Or, a live televised tournament in which contestants vied to transcribe
+most accurately a dictated text—the Super Bowl of orthography.&amp;quot;&lt;/p&gt;
+</content><category term="langue"></category><category term="société"></category></entry><entry><title>Science article: Postdoc, a special kind of Hell</title><link href="http://page.mi.fu-berlin.de/labbe/special_hell.html" rel="alternate"></link><published>2016-09-03T18:00:00+02:00</published><updated>2016-09-03T18:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-09-03:/labbe/special_hell.html</id><summary type="html">&lt;p class="first last"&gt;The life of a postdoc&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Il y a quelque temps, je suis tombé sur un article drôle concernant un sujet
+sérieux:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://www.sciencemag.org/careers/2013/11/postdoc-special-kind-hell"&gt;The Postdoc: A Special Kind of Hell&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;On y trouve plusieurs clichés qui sont plus ou moins vrais sur la vie des
+postdocs, en mathématiques particulièrement. Par contre, l'article soulève bien
+les problèmes concernant la précarité dont j'avais parlé
+&lt;a class="reference external" href="destruction.html"&gt;dans l'article sur la destruction de l'université française&lt;/a&gt;.&lt;/p&gt;
+</content><category term="éducation"></category><category term="math"></category><category term="recherche"></category><category term="science"></category></entry><entry><title>John A. Macdonald, tout sauf un démocrate</title><link href="http://page.mi.fu-berlin.de/labbe/macdonald.html" rel="alternate"></link><published>2016-05-25T18:00:00+02:00</published><updated>2016-05-25T18:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-05-25:/labbe/macdonald.html</id><summary type="html">&lt;p class="first last"&gt;Description des faces cachées de MacDonald&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Un court vidéo de l'émission 15-18 de Radio-Canada.
+John A. Macdonald, tout sauf un démocrate avec plusieurs preuves à l'appuie.
+Il a toujours été contre le suffrage universel.
+Une citation célèbre: &amp;quot;Louis Riel sera pendu, même si tous les chiens du Québec
+aboient en sa faveur&amp;quot;
+Il a joué un rôle important dans la destruction de la communauté autochtone du
+Canada.&lt;/p&gt;
+&lt;iframe
+src="https://www.facebook.com/plugins/video.php?href=https%3A%2F%2Fwww.facebook.com%2FLe1518%2Fvideos%2Fvb.493770360693544%2F977597428977499%2F%3Ftype%3D3&amp;show_text=0&amp;width=560"
+width="560" height="315" style="border:none;overflow:hidden" scrolling="no"
+frameborder="0" allowTransparency="true" allowFullScreen="true"&gt;&lt;/iframe&gt;
+</content><category term="Québec"></category><category term="Politique"></category><category term="Canada"></category></entry><entry><title>La destruction de l'Université française</title><link href="http://page.mi.fu-berlin.de/labbe/destruction.html" rel="alternate"></link><published>2016-02-24T17:00:00+01:00</published><updated>2016-02-24T17:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-02-24:/labbe/destruction.html</id><summary type="html">&lt;p class="first last"&gt;La destruction de l'Université française&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Suite à la lecture de la &lt;a class="reference external" href="http://www.ledevoir.com/culture/livres/463387/la-destruction-de-l-universite-francaise-christophe-granger"&gt;critique&lt;/a&gt; de Marie-Pier Frappier dans Le Devoir du nouveau livre de Christophe Granger, j'ai décidé de faire une recherche sur l'auteur. J'ai trouvé ce vidéo sur youtube présentant le livre en question.&lt;/p&gt;
+&lt;iframe width="560" height="315"
+src="https://www.youtube.com/embed/MulI1eYOhA0" frameborder="0"
+allowfullscreen&gt;&lt;/iframe&gt;
+&lt;p&gt;L'auteur, un historien, s'attarde particulièrement sur le sort des 'précaires' dans les universités (ATER, postdocs, chargés de cours, etc.). Il explique un changement par rapport à l'autonomie des universités et dans la conception et la division des tâches universitaires. Il raconte comment ce changement de conception du but et de la structure de l'université a été influencé par des rapports de la banque mondiale et de l'OCDE favorisant la libéralisation des universités. Ces deux institutions ont critiqué les manques de réalisations des objectifs soi-disant financiés des universités du genre: &amp;quot;S'il y a une récession, c'est à cause que les universités n'ont pas assez innové&amp;quot;. On a alors assisté à un changement d'environnement passant d'un endroit du savoir et du développement critique à un monde au service de l'économie. Ce virage amène une perte d'autonomie et d'indépendance. Le motto est ainsi: &amp;quot;L'université doit disparaître en ce qu'elle est afin de devenir un maillon dans la chaîne économique&amp;quot;. Pour un précaire, il n'y a alors plus lieu de se faire des attentes face au milieu universitaire.&lt;/p&gt;
+</content><category term="éducation"></category><category term="Politique"></category><category term="recherche"></category><category term="science"></category><category term="société"></category></entry><entry><title>Revue 2015 du Devoir -- Affaires Autochtones</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2015_autochtones.html" rel="alternate"></link><published>2016-01-28T15:00:00+01:00</published><updated>2016-01-28T15:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-01-28:/labbe/devoir_2015_autochtones.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2015 des articles du Devoir sur les affaires autochtones&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Depuis cet automne, je suis abonné au Devoir. Voici une liste d'articles
+publiés dans le Devoir que j'ai particulièrement appréciés.&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="reconciliation"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/458802/reconciliation"&gt;Réconciliation?&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Courte rectification historique sur nos relations avec les nations indiennes.
+Cela va dans le même sens que le documentaire l'Empreinte dont j'ai déjà parlé
+dans un autre post.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="revitaliser-les-langues-et-les-cultures-autochtones"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/459923/des-idees-en-revues-revitaliser-les-langues-et-les-cultures-autochtones"&gt;Revitaliser les langues et les cultures autochtones&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;'La langue est plus qu’un outil d’expression. C’est un don de nos ancêtres.
+Elle reste aujourd’hui un lien vers notre cosmologie ancestrale, elle révèle
+une profonde compréhension de notre place dans le monde et auprès de la
+Terre-Mère et elle régénère avec chaque nouvelle génération la connexion entre
+tous les êtres vivants. La langue, la culture, le développement social et
+politique sont indivisibles dans la réalisation des droits de la personne et de
+l’autodétermination des peuples autochtones.'
+Un texte très fort. À lire absolument.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="Politique"></category><category term="société"></category></entry><entry><title>Revue 2015 du Devoir -- Langue</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2015_langue.html" rel="alternate"></link><published>2016-01-28T15:00:00+01:00</published><updated>2016-01-28T15:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-01-28:/labbe/devoir_2015_langue.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2015 des articles du Devoir sur la langue&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Depuis cet automne, je suis abonné au Devoir. Voici une liste d'articles
+publiés dans le Devoir que j'ai particulièrement appréciés.&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="la-langue-maternelle-laisse-une-empreinte-cerebrale"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/science-et-technologie/456806/etude-la-langue-maternelle-laisse-une-empreinte-cerebrale"&gt;La langue maternelle laisse une empreinte cérébrale&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Annonce des résultats de recherche de chercheurs de l'université McGill affirmant que l'exposition à sa langue maternelle après la naissance laisse des traces indélébiles dans le cerveau.
+Des résultats fascinants!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="le-pedigree-francais-de-langlais"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/459856/le-pedigree-francais-de-l-anglais"&gt;Le pedigree français de l’anglais&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;'De la même manière que le français s’est construit par opposition au latin, l’anglais s’est largement bâti par rejet du français.'
+Un article sur la présence du français dans la langue anglaise et son influence.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="le-retour-du-francais"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/457884/le-retour-du-francais"&gt;Le retour du français&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;'Ça coupe court à tous les discours sur le déclin : le français reste encore une grande langue internationale de formation et de recherche.'
+'Donc, en fait, vous publiez en français et si quelqu’un en Azerbaïdjan veut vous lire, il peut faire des extractions, les faire traduire et vous lire sans avoir recours à l’anglais.'
+'Le Commonwealth a la reine d’Angleterre, mais la francophonie, elle, a la langue française.'&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="quelques-verites-sur-la-langue"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/culture/livres/454465/quelques-verites-sur-la-langue"&gt;Quelques vérités sur la langue&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Un article présentant un livre discutant des idées reçues sur le français.
+'On compte bien quelques différences lexicales entre notre français et celui de la France, mais la syntaxe est la même. L’accent ? Il est varié, ici comme là-bas. Il faut d’ailleurs retenir qu’« un accent ne fait pas une langue et [que] seuls les muets n’en ont pas un ». Melançon rappelle aussi, à raison, que ce qu’on appelle le français international « est une construction de l’esprit » et que la variété linguistique (géographique, temporelle, sociale et situationnelle) fait partie de la nature même de toute langue.'
+'Joual ou cheval, ça se discute. Le problème, disait Miron, c’est quand on est forcé de dire « horse ».'&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="éducation"></category><category term="langue"></category></entry><entry><title>Revue 2015 du Devoir -- Politique</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2015_politique.html" rel="alternate"></link><published>2016-01-28T15:00:00+01:00</published><updated>2016-01-28T15:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-01-28:/labbe/devoir_2015_politique.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2015 des articles du Devoir sur la politique&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Depuis cet automne, je suis abonné au Devoir. Voici une liste d'articles
+publiés dans le Devoir que j'ai particulièrement appréciés.&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="projet-montreal-devrait-sinspirer-de-bernie-sanders"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/montreal/461243/projet-montreal-devrait-s-inspirer-de-bernie-sanders"&gt;Projet Montréal devrait s’inspirer de Bernie Sanders&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;'Les partis politiques québécois comme Projet Montréal ou Québec solidaire ne pourraient-ils pas aussi aspirer à une révolution politique passant par le support des moins de 30 ans?'&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="lart-de-passer-nos-torts-sous-silence"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/461159/monument-aux-victimes-du-communisme-l-art-de-passer-nos-torts-sous-silence"&gt;L’art de passer nos torts sous silence&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;L'organisme 'Tribute to Liberty' et leur tentative de réécrire l'histoire à travers l'érection d'un monument 'en mémoire des victimes du communisme'.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="la-quatrieme-revolution-antidemocratique"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/quebec/458931/le-projet-liberal-la-quatrieme-revolution-antidemocratique"&gt;La «quatrième» révolution antidémocratique&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;'Le néolibéralisme n’est donc pas un programme économique basé sur le laisser-faire de l’économie libérale classique. Ce n’est pas non plus l’absence d’État comme l’appellent les libertariens. L’État néolibéral idéal, c’est un État « autre » qui contribue à créer un nouveau monde et des individus qui lui correspondent.'
+Très instructif comme texte concernant la politique de Couillard et ses possibles inspirations.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="fournier-et-les-travers-du-bon-ententisme"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/quebec/456973/les-travers-du-bon-ententisme"&gt;Fournier et les travers du bon-ententisme&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Une partie de discussion entre le ministre Fournier et Stéphane Bergeron concernant la francophonie et le statut du Québec à l'intérieur du Canada.
+Très drôle lecture.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="les-fonctionnaires-saluent-le-gouvernement-trudeau"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/454805/les-fonctionnaires-saluent-le-gouvernement-trudeau"&gt;Les fonctionnaires saluent le gouvernement Trudeau&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Les scientifiques du gouvernement peuvent de nouveau s'exprimer sur leurs travaux en public.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="Politique"></category></entry><entry><title>Revue 2015 du Devoir -- Relation Canada vs Québec</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2015_relation.html" rel="alternate"></link><published>2016-01-28T15:00:00+01:00</published><updated>2016-01-28T15:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-01-28:/labbe/devoir_2015_relation.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2015 des articles du Devoir sur les relations Canada vs Québec&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Depuis cet automne, je suis abonné au Devoir. Voici une liste d'articles
+publiés dans le Devoir que j'ai particulièrement appréciés.&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="m-couillard-il-faut-sauver-le-soldat-coderre"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/461288/m-couillard-il-faut-sauver-le-soldat-coderre"&gt;M. Couillard, il faut sauver le soldat Coderre&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Démonstration de l'ironie d'avoir un fédéraliste maire de Montréal ayant à défendre les intérêts du Québec devant le ROC.
+Tout ça devant le fiel que déverse le ROC au sujet du Québec refusant la poursuite du projet Énergie Est.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="pourquoi-sappeler-encore-une-province"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/quebec/454357/pourquoi-s-appeler-encore-une-province"&gt;Pourquoi s’appeler encore une province?&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;'Le mot province vient du latin pro victis, qui signifie « territoire des vaincus ». [...] Plutôt que d’arborer le titre de province, ne serait-il pas mieux que le Québec se nomme l’État fédéré du Québec ?'
+Article original d'un avocat sur la notion de province et sa signification!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="education-deshabiller-jean-pour-mieux-vetir-john"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/education/459868/education-deshabiller-jean-pour-mieux-vetir-john"&gt;Éducation: déshabiller Jean pour mieux vêtir John&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Article démontrant en chiffre que l'effectif des universités anglophones du Québec vont au-delà de la proportion de la population anglophone.
+'Si les effectifs des institutions universitaires anglophones étaient de 11 % comme au primaire/secondaire, c’est plus d’un milliard de dollars par année qui iraient aux institutions universitaires francophones. [...] Pour qu’une langue soit en santé, elle a besoin de deux choses, soit le poids du nombre et des institutions publiques qui fonctionnent dans cette langue.'&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="briser-le-dogme-du-multiculturalisme"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/456584/briser-le-dogme-du-multiculturalisme"&gt;Briser le dogme du multiculturalisme&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Un texte tout simplement très éclairant au sujet de la cohabitation en société, le multiculturalisme et ses conséquences.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="back-to-bay-street"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/454519/politique-federale-back-to-bay-street"&gt;«Back to Bay Street»&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;'Le Canada de Justin Trudeau est le même que celui de Jean Chrétien et de Trudeau père : un pays de cohabitation entre gens de cultures différentes unis par un même code criminel, une loi des langues officielles et une autre de la santé, un chemin de fer, une route et un pipeline, le tout dirigé de l’Ontario grâce à la compétence génétiquement acquise de l’establishment anglo-saxon installé confortablement dans sa nouvelle métropole, Toronto.'&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="en-francais"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/454971/affaires-etrangeres-en-francais"&gt;En français&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Tout simplement: 'La réalité à laquelle les ministres francophones du gouvernement fédéral se heurtent est qu’en dépit de la Loi sur les langues officielles, la langue de travail et la langue du pouvoir est l’anglais à Ottawa. Un fonctionnaire unilingue français ne pourra progresser très loin dans l’appareil gouvernemental, au contraire d’un fonctionnaire unilingue anglais. Malgré qu’il existe des unités de travail en français dans certains ministères, la vie se déroule en anglais. Il en est de même pour les députés et les ministres'&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="Politique"></category><category term="société"></category></entry><entry><title>Revue 2015 du Devoir -- Sciences et technologie</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2015_science.html" rel="alternate"></link><published>2016-01-28T15:00:00+01:00</published><updated>2016-01-28T15:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-01-28:/labbe/devoir_2015_science.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2015 des articles du Devoir en Sciences&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Depuis cet automne, je suis abonné au Devoir. Voici une liste d'articles
+publiés dans le Devoir que j'ai particulièrement appréciés.&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="le-quebec-se-met-a-lindex"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/461085/le-quebec-se-met-a-l-index"&gt;Le Québec se met à l’index&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Annonce de la création d'un outil de recherche francophone permettant de trouver des articles
+scientifiques de toutes sortes. Bien lire les commentaires.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="wikipedia-et-lhistoire-du-quebec"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/medias/461170/wikipedia-et-l-histoire-du-quebec"&gt;Wikipédia et l’histoire du Québec&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Article dénonçant l'éloge inconditionnelle de Wikipedia sur son importance
+encyclopédique.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="lintelligence-artificielle-dame-le-pion-au-champion-deurope-de-go"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/culture/actualites-culturelles/461400/jeu-l-intelligence-artificielle-dame-le-pion-au-champion-d-europe-de-go"&gt;L’intelligence artificielle dame le pion au champion d’Europe de go&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Une première: un ordinateur a gagné contre un champion de go.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="uber-et-le-necessaire-controle-social-des-algorithmes"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/science-et-technologie/459947/uber-et-le-necessaire-controle-social-des-algorithmes"&gt;Uber et le nécessaire contrôle social des algorithmes&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Les termes 'algorithme' et 'formule' y sont un peu galvaudée. Et
+la notion de logiciel libre où le code source peut être accessible est tout
+simplement ignorée.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="le-logiciel-libre-remede-a-lopacite-des-algorithmes"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/science-et-technologie/461474/le-logiciel-libre-remede-pratique-a-l-opacite-des-algorithmes"&gt;Le logiciel libre, remède à l’opacité des algorithmes&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Une réponse à l'article ci-haut proposant justement les logiciels libres contre l'opacité des logiciels.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="science"></category></entry><entry><title>Revue 2015 du Devoir -- Société</title><link href="http://page.mi.fu-berlin.de/labbe/devoir_2015_societe.html" rel="alternate"></link><published>2016-01-28T15:00:00+01:00</published><updated>2016-01-28T15:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-01-28:/labbe/devoir_2015_societe.html</id><summary type="html">&lt;p class="first last"&gt;Revue 2015 des articles du Devoir sur la société&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Depuis cet automne, je suis abonné au Devoir. Voici une liste d'articles
+publiés dans le Devoir que j'ai particulièrement appréciés.&lt;/p&gt;
+&lt;p&gt;Avertissement: la présence d'un article ne signifie pas que j'approuve son
+contenu, mais bien que son contenu a particulièrement attiré mon attention.&lt;/p&gt;
+&lt;div class="section" id="je-me-souviens"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/458997/je-me-souviens"&gt;Je me souviens!&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Témoignage d'une montréalaise ayant immigré en 1990.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="gaston-miron-et-la-democratisation-de-leducation"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/education/457885/gaston-miron-et-la-democratisation-de-l-education"&gt;Gaston Miron et la démocratisation de l’éducation&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;'Gaston Miron percevait, comme plusieurs, l’éducation comme le principe
+d’émancipation du peuple québécois.'&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="ce-diplome-nest-pas-a-moi"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/societe/education/460626/gratitude-ce-diplome-n-est-pas-a-moi"&gt;Ce diplôme n’est pas à moi&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Une finissante en droit témoigne sur l'obtention de son diplôme.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="le-drame-de-la-solitude-quebecoise"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/culture/livres/454466/histoire-politique-le-drame-de-la-solitude-quebecoise"&gt;Le drame de la solitude québécoise&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;'Il n’y a rien là de très nouveau comme analyse, sinon la redécouverte
+capitale, dans les mille dimensions de l’écriture, d’une réalité parfois mieux
+perçue par des étrangers ou de nouveaux arrivants que par nous-mêmes :
+l’omniprésente obsession de la solitude.'&lt;/p&gt;
+&lt;p&gt;'Pour eux, la solitude résulte de la crainte viscérale de diviser la nation par
+la prise de conscience politique. Cela pousse à l’individualisme, au rejet de
+toute concertation.'&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="la-charite"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/international/actualites-internationales/458337/la-charite"&gt;La Charité&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;'La charité du peuple, en particulier, est digne chaque fois qu’elle ne sombre
+pas dans cet exhibitionnisme de nantis et de notables repus qui fait
+aujourd’hui la une de nos journaux.'
+Texte intéressant.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conseils-aux-refugies-syriens"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/politique/canada/458139/logement-conseils-aux-refugies-syriens"&gt;Conseils aux réfugiés syriens&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;'Vous reverrez M. Trudeau. Un jour à la télé, il annoncera qu’il tient ses
+promesses en matière de logement social.'&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="anonymous-qui-es-tu"&gt;
+&lt;h2&gt;&lt;a class="reference external" href="http://www.ledevoir.com/culture/livres/461390/anonymous-qui-es-tu"&gt;Anonymous, qui es-tu?&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Une présentation d'un livre par une auteure ayant rencontré des membres
+d'Anonymous.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="Québec"></category><category term="éducation"></category><category term="société"></category></entry><entry><title>Mois du Piéton</title><link href="http://page.mi.fu-berlin.de/labbe/moispieton.html" rel="alternate"></link><published>2015-10-28T10:40:00+01:00</published><updated>2015-10-28T10:40:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2015-10-28:/labbe/moispieton.html</id><summary type="html">&lt;p class="first last"&gt;Mois du Piéton au Québec&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Le mois d'octobre 2015 est le &amp;quot;mois du piéton&amp;quot; au Québec.
+Je l'ai su en lisant un très bon &lt;a class="reference external" href="http://www.ledevoir.com/politique/quebec/452481/contraventions-aux-pietons-absurdites-policieres"&gt;article d'opinion&lt;/a&gt; dans Le Devoir.&lt;/p&gt;
+&lt;img alt="L'espace qu'on abandonne aux autos" class="align-center" src="http://www.stickybottle.com/wp-content/uploads/2014/11/DR1.jpg" style="width: 10cm;" /&gt;
+&lt;p&gt;Pendant ce temps, le nouveau gouvernement de la ville d'Oslo projette de &lt;a class="reference external" href="http://www.theguardian.com/environment/2015/oct/19/oslo-moves-to-ban-cars-from-city-centre-within-four-years"&gt;bannir l'automobile au centre-ville&lt;/a&gt;.&lt;/p&gt;
+</content><category term="Québec"></category><category term="Politique"></category><category term="circulation"></category><category term="urbanisme"></category></entry><entry><title>A mas velocidad semaforo rojo</title><link href="http://page.mi.fu-berlin.de/labbe/circulation.html" rel="alternate"></link><published>2015-03-02T13:00:00+01:00</published><updated>2015-03-02T13:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2015-03-02:/labbe/circulation.html</id><summary type="html">&lt;p class="first last"&gt;Technique de contrôle de vitesse&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Dans les petits villages d'Espagne, j'ai vu une enseigne disant&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://s611.photobucket.com/user/mungano_2009/media/Sinttulo-52.png.html"&gt;A mas velocidad semaforo rojo&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Qui se traduit par &amp;quot;si tu vas vite, la prochaine lumière sera rouge.&amp;quot;
+J'ai trouvé le principe bien pensé pour réguler la vitesse. En ayant
+une vitesse réduite mais constante, la fluidité n'est pas affecté
+grandement et les voitures provenant les rues voisines peuvent
+intégrer la voie principale plus facilement grâce à une vitesse
+réduite et plus uniforme des voitures. Et passer sur une lumière
+rouge est instinctivement plus grave qu'un excès de vitesse.
+Pourrait-on voir l'idée être débattu au Québec?&lt;/p&gt;
+</content><category term="urbanisme"></category><category term="circulation"></category></entry><entry><title>Financement de l'université - Recherche de l'IRIS</title><link href="http://page.mi.fu-berlin.de/labbe/recherche_iris.html" rel="alternate"></link><published>2015-03-02T13:00:00+01:00</published><updated>2015-03-02T13:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2015-03-02:/labbe/recherche_iris.html</id><summary type="html">&lt;p class="first last"&gt;Financement de l'université - Recherche de l'IRIS&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Trois ans après le printemps 2012, en lisant mes notes, je tombe sur une
+étude de l'institut de recherche et d'informations socio-économiques
+(IRIS) datant de octobre 2008.&lt;/p&gt;
+&lt;p&gt;La recherche s'intitule &lt;a class="reference external" href="http://iris-recherche.qc.ca/publications/financement_des_universites_vers_une_americanisation_du-1"&gt;Financement des universités: Vers une américanisation
+du modèle québécois?&lt;/a&gt;.
+C'est une lecture très intéressante et informative. Parmi les conclusions de la recherche on y trouve, entre autres, les points suivants:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;En Australie, le remboursement proportionnel au revenu (RPR) a servi
+de mécanisme pour substituer les fonds étudiants aux fonds publics.
+Son introduction permet de présenter la substitution des sources de
+financement des universités comme une simple variante du mode de
+perception de la tarification individuelle.&lt;/li&gt;
+&lt;li&gt;Uniquement 20% des étudiant·e·s postsecondaires américains on accès au
+réseau d’université privé. Dans cette portion déjà restreinte, uniquement 5%
+des étudiant·e·s proviennent du quintile le plus pauvre de la population
+américaine, contre une part de 70 % pour ceux appartenant au quintile le
+plus riche.&lt;/li&gt;
+&lt;li&gt;De 1980 à 2000, la part qu’occupaient les frais de scolarité des universités
+publiques dans le budget familial du quintile le plus pauvre de la population
+est passée de 13% à 25%. Pour le 20% des plus riches, la part des frais de
+scolarité dans le budget familial moyen est restée stable à 2%.&lt;/li&gt;
+&lt;li&gt;La pression croissante en faveur de hausses de frais de scolarité indique
+que le Québec s’engage dans une direction similaire. Un Québec qui aurait,
+dans l’avenir, converti son système d’éducation en régimes à contribution
+étudiante élevée (versus subventions directes de l’État), en utilisant le
+RPR comme mécanisme de transition, aurait, au final, un système d’éducation
+privatisé et élitiste, où des pauvres pourraient tout de même entrer, à
+condition de le faire à crédit, en s’endettant à vie.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Même si cette recherche date de 2008, elle renferme toujours des informations
+pertinentes et actuelles. Il aurait été intéressant qu'ils considèrent
+l'indexation des frais de scolarité et ses conséquences.&lt;/p&gt;
+</content><category term="éducation"></category><category term="iris"></category><category term="recherche"></category></entry><entry><title>Why so many reasonable people doubt science?</title><link href="http://page.mi.fu-berlin.de/labbe/why-so-many.html" rel="alternate"></link><published>2015-03-02T13:00:00+01:00</published><updated>2015-03-02T13:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2015-03-02:/labbe/why-so-many.html</id><summary type="html">&lt;p class="first last"&gt;Why doubt science&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Suivant l'éclosion de rougeole au Québec, l'&lt;a class="reference external" href="https://www.nationalgeographic.com/magazine/2015/03/science-doubters-climate-change-vaccinations-gmos"&gt;article&lt;/a&gt; de Joel Achenbach publié sur le site web de la revue National Geographic tente de donner une réponse à la question&lt;/p&gt;
+&lt;p&gt;Why so many reasonable people doubt science?&lt;/p&gt;
+&lt;p&gt;L'aspect sociologique de la réponse est bien défendu et propose une explication
+plus terre-à-terre du débat &amp;quot;Science vs Faits&amp;quot;.&lt;/p&gt;
+</content><category term="science"></category></entry><entry><title>Rarity of left-handed people</title><link href="http://page.mi.fu-berlin.de/labbe/lefthand.html" rel="alternate"></link><published>2015-01-28T11:00:00+01:00</published><updated>2015-01-28T11:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2015-01-28:/labbe/lefthand.html</id><summary type="html">&lt;p class="first last"&gt;Correlation with left-hand&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;As a left-handed mathematician, I was often told some more or less provable
+facts about &lt;a class="reference external" href="http://en.wikipedia.org/wiki/Handedness_and_mathematical_ability"&gt;left-handed people&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Between Jan. 18 and Jan. 31 2015, the 18th Midrasha Mathematicae took place
+at the Israel Institute for Advanced Studies.&lt;/p&gt;
+&lt;p&gt;During the talks, I noticed several local participants were left-handed. It would be
+interesting to know the incidence of between a mathematician (supposedly
+correlates with being left-handed) and having a right-to-left writing system
+associated with the mother language.&lt;/p&gt;
+&lt;p&gt;Are these things correlated?&lt;/p&gt;
+&lt;p&gt;Well, a study done a few years ago seems to reveal the reason why lefties are
+&lt;a class="reference external" href="http://www.livescience.com/19968-study-reveals-lefties-rare.html"&gt;rare&lt;/a&gt;.&lt;/p&gt;
+</content><category term="correlation"></category><category term="left-hand"></category><category term="math"></category></entry><entry><title>Gallery of Limit roots</title><link href="http://page.mi.fu-berlin.de/labbe/gallery.html" rel="alternate"></link><published>2015-01-01T17:00:00+01:00</published><updated>2015-01-01T17:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2015-01-01:/labbe/gallery.html</id><summary type="html">&lt;p class="first last"&gt;Gallery of limit roots&lt;/p&gt;
+</summary><content type="html">&lt;div class="section" id="geometry-of-infinite-root-systems"&gt;
+&lt;h2&gt;Geometry of infinite root systems&lt;/h2&gt;
+&lt;p&gt;Here is a gallery of limit roots of infinite Coxeter groups produced by Sage.&lt;/p&gt;
+&lt;img alt="Hyperbolic Coxeter group with label 3" class="align-center" src="images/Root_3D-333333.jpg" style="width: 10cm;" /&gt;
+&lt;p&gt;Normalized isotropic cone and the first few thousand normalized roots for the Coxeter graph depicted. The set of accumulation points is dense on the isotropic cone.&lt;/p&gt;
+&lt;img alt="Universal Coxeter group" class="align-center" src="images/Root_3D-oooooo.jpg" style="width: 10cm;" /&gt;
+&lt;p&gt;Normalized isotropic cone and the first few thousand normalized roots for the universal Coxeter group on 4 generator. The set of accumulation points form an Apollonian gasket.&lt;/p&gt;
+&lt;p&gt;These pictures are artistic variations with different colors and size for the normalized roots (the closer the root to the isotropic cone, the smaller it is represented).&lt;/p&gt;
+&lt;img alt="Roots 1" class="align-center" src="images/Root1.jpg" style="width: 10cm;" /&gt;
+&lt;img alt="Roots 2" class="align-center" src="images/Root2.jpg" style="width: 10cm;" /&gt;
+&lt;img alt="Roots 3" class="align-center" src="images/Root3.jpg" style="width: 10cm;" /&gt;
+&lt;img alt="Roots 4" class="align-center" src="images/Root4.jpg" style="width: 10cm;" /&gt;
+&lt;img alt="Roots 5" class="align-center" src="images/Root5.jpg" style="width: 10cm;" /&gt;
+&lt;img alt="Roots 6" class="align-center" src="images/Root6.jpg" style="width: 10cm;" /&gt;
+&lt;/div&gt;
+</content><category term="Coxeter groups"></category><category term="Limit roots"></category><category term="Fractals"></category><category term="Sage"></category></entry></feed>

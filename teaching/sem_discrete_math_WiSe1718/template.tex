@@ -1,0 +1,52 @@
+\documentclass[a4paper]{article}
+\usepackage{cmap} % fix search and cut-and-paste in Acrobat
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc} % Change according to your operating system
+
+\usepackage{amsmath,amssymb,amsthm,a4wide,xcolor,tikz,enumitem,multicol,bbm,stackrel}
+\usetikzlibrary{calc}
+
+%%%%%%% Environments %%%%%%%%%
+\theoremstyle{plain}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{conjecture}[theorem]{Conjecture}
+
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{example}[theorem]{Example}
+\newtheorem{problem}[theorem]{Problem}
+
+%%%%%%% Definition %%%%%%%%%%%
+\definecolor{darkblue}{rgb}{0,0,0.7} % darkblue color
+\newcommand{\darkblue}{\color{darkblue}} % darkblue command
+\newcommand{\defn}[1]{\emph{\darkblue #1}} % emphasis of a definition
+
+%%%%%%% Macros %%%%%%%%%%%%%%%
+\DeclareMathOperator{\ob}{ob}
+\def\C{\mathcal{C}}
+
+%%% Title Data
+\title{Seminar for Discrete Mathematics I -- WiSe17/18}
+\author{Your Name Here}
+\date{\today} % Change to the date of your presentation
+
+\begin{document}
+\maketitle
+
+\section{My Topic}
+
+\subsection{First part}
+
+\begin{definition}
+This \defn{object} $\ob(\C)$ is defined here.
+\end{definition}
+
+\subsection{Second part}
+
+\section*{References}
+
+\end{document}

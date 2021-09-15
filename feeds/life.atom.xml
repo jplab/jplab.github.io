@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Jean-Philippe Labbé's webpage - Life</title><link href="http://page.mi.fu-berlin.de/labbe/" rel="alternate"></link><link href="http://page.mi.fu-berlin.de/labbe/feeds/life.atom.xml" rel="self"></link><id>http://page.mi.fu-berlin.de/labbe/</id><updated>2016-09-03T19:00:00+02:00</updated><entry><title>Un montage vidéo sur Berlin</title><link href="http://page.mi.fu-berlin.de/labbe/berlin_montage.html" rel="alternate"></link><published>2016-09-03T19:00:00+02:00</published><updated>2016-09-03T19:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2016-09-03:/labbe/berlin_montage.html</id><summary type="html">&lt;p class="first last"&gt;A short video on Berlin sights&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Un joli vidéo sur Berlin. Rien à dire de plus que la ville est une belle
+jungle!&lt;/p&gt;
+&lt;iframe
+src="https://player.vimeo.com/video/167397366?color=ffffff&amp;title=0&amp;byline=0"
+width="640" height="360" frameborder="0" webkitallowfullscreen
+mozallowfullscreen allowfullscreen&gt;&lt;/iframe&gt;
+&lt;p&gt;&lt;a href="https://vimeo.com/167397366"&gt;BERLIN (CLASSIFIED)&lt;/a&gt; from &lt;a
+href="https://vimeo.com/julienpatry"&gt;Julien Patry&lt;/a&gt; on &lt;a
+href="https://vimeo.com"&gt;Vimeo&lt;/a&gt;.&lt;/p&gt;
+</content><category term="urbanisme"></category></entry></feed>

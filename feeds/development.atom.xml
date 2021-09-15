@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Jean-Philippe Labbé's webpage - Development</title><link href="http://page.mi.fu-berlin.de/labbe/" rel="alternate"></link><link href="http://page.mi.fu-berlin.de/labbe/feeds/development.atom.xml" rel="self"></link><id>http://page.mi.fu-berlin.de/labbe/</id><updated>2020-11-06T11:00:00+01:00</updated><entry><title>Draw polytopes using TikZ</title><link href="http://page.mi.fu-berlin.de/labbe/polytope.html" rel="alternate"></link><published>2020-11-06T11:00:00+01:00</published><updated>2020-11-06T11:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2020-11-06:/labbe/polytope.html</id><summary type="html">&lt;p class="first last"&gt;How to draw polytopes in LaTeX using Sage, TikZ and SageTex&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;It is sometimes very helpful to draw 3-dimensional polytope in a paper. TikZ is
+a very versatile tool to draw in scientific documents and Sage can deal easily
+with 3-dimensional polytopes. Finally sagetex makes everything work together
+nicely between Sage, tikz and latex. Since version 6.3 of Sage, there is a
+function for (projection of) polytopes to output a TikZ picture of the
+polytope. This short tutorial shows how it all works. Since version 9.2 of Sage
+it became even easier!&lt;/p&gt;
+&lt;p&gt;To put an image of a 3d-polytope in latex using TikZ and Sage, simply follow the instructions:&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;Install &lt;a class="reference external" href="http://www.sagemath.org"&gt;Sage 9.2&lt;/a&gt; or higher&lt;/li&gt;
+&lt;li&gt;Install &lt;a class="reference external" href="http://www.sagemath.org/doc/tutorial/sagetex.html"&gt;SageTex&lt;/a&gt; (optionnal but recommended!)&lt;/li&gt;
+&lt;li&gt;Put &lt;tt class="docutils literal"&gt;\usepackage{tikz}&lt;/tt&gt; in the preamble of your article&lt;/li&gt;
+&lt;li&gt;Open Sage and change the directory to your article's by the command &lt;tt class="docutils literal"&gt;cd /path/to/article&lt;/tt&gt;&lt;/li&gt;
+&lt;li&gt;Input your polytope, called P, to Sage&lt;/li&gt;
+&lt;li&gt;Visualize the polytope P using the command &lt;tt class="docutils literal"&gt;P.show(aspect_ratio=1)&lt;/tt&gt;&lt;/li&gt;
+&lt;li&gt;This will open an interactive view in your default browser, where you can rotate the polytope.&lt;/li&gt;
+&lt;li&gt;Once the desired view angle is found, click on the information icon in the
+lower right-hand corner and select &lt;em&gt;Get Viewpoint&lt;/em&gt;. This will copy a string of
+the form ‘[x,y,z],angle’ to your local clipboard.&lt;/li&gt;
+&lt;li&gt;Go back to Sage and type &lt;tt class="docutils literal"&gt;Img = &lt;span class="pre"&gt;P.tikz([x,y,z],angle)&lt;/span&gt;&lt;/tt&gt;. You can paste the string here to save some typing.&lt;/li&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;Img&lt;/tt&gt; contains a Sage object of type LatexExpr containing the raw tikz picture of your polytope&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Then, you can either copy-paste it to your article by typing Img in Sage or save it to a file, by doing&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+f=open('Img_poly.tex','w')
+f.write(Img)
+f.close()
+&lt;/pre&gt;
+&lt;p&gt;Then in the pwd (present working directory of sage, the one of your article) you will have a file named Img_poly.tex containing the tikzpicture of your polytope&lt;/p&gt;
+&lt;p&gt;You can customize the polytope using the following options in the command &lt;tt class="docutils literal"&gt;P.tikz()&lt;/tt&gt;&lt;/p&gt;
+&lt;ul class="simple"&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;scale&lt;/tt&gt; : positive number to scale the polytope&lt;/li&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;edge_color&lt;/tt&gt; : string (default: &lt;tt class="docutils literal"&gt;blue!95!black&lt;/tt&gt;) representing colors which tikz recognize&lt;/li&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;facet_color&lt;/tt&gt; : string (default: &lt;tt class="docutils literal"&gt;blue!95!black&lt;/tt&gt;) representing colors which tikz recognize&lt;/li&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;vertex_color&lt;/tt&gt; : string (default: &lt;tt class="docutils literal"&gt;green&lt;/tt&gt;) representing colors which tikz recognize&lt;/li&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;opacity&lt;/tt&gt; : real number (default: &lt;tt class="docutils literal"&gt;0.8&lt;/tt&gt;) between 0 and 1 giving the opacity of the front facets.&lt;/li&gt;
+&lt;li&gt;&lt;tt class="docutils literal"&gt;axis&lt;/tt&gt; : Boolean (default: &lt;tt class="docutils literal"&gt;False&lt;/tt&gt;) draw the axes at the origin or not.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div class="section" id="example"&gt;
+&lt;h2&gt;Example&lt;/h2&gt;
+&lt;p&gt;Let's say I want to draw the polar dual of the following (nice!) polytope given by the following list of vertices:&lt;/p&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;&lt;span class="pre"&gt;[[1,0,1],[1,0,0],[1,1,0],[0,0,-1],[0,1,0],[-1,0,0],[0,1,1],[0,0,1],[0,-1,0]]&lt;/span&gt;&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;In Sage, I type:&lt;/p&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;P = &lt;span class="pre"&gt;Polyhedron(vertices=[[1,0,1],[1,0,0],[1,1,0],[0,0,-1],[0,1,0],[-1,0,0],[0,1,1],[0,0,1],[0,-1,0]]).polar()&lt;/span&gt;&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;Then, I visualize the polytope by typing &lt;tt class="docutils literal"&gt;P.show(aspect_ratio=1)&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;When I found a good angle, I follow the above procedure to obtain the values [674,108,-731] and angle=112&lt;/p&gt;
+&lt;p&gt;The image corresponding to the code &lt;tt class="docutils literal"&gt;Img = &lt;span class="pre"&gt;P.tikz([674,108,-731],112)&lt;/span&gt;&lt;/tt&gt; is&lt;/p&gt;
+&lt;img alt="A 3-dim. associahedron" class="align-center" src="images/AssoTikZ.png" style="width: 10cm;" /&gt;
+&lt;p&gt;Then, I may want to customize using the command&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+Img = P.tikz([674,108,-731],112,scale=2, edge_color='orange',facet_color='red',vertex_color='blue',opacity=0.4)
+&lt;/pre&gt;
+&lt;p&gt;which gives the image (the scaling difference do not appear here)&lt;/p&gt;
+&lt;img alt="A 3-dim. associahedron" class="align-center" src="images/AssoTikZ2.png" style="width: 10cm;" /&gt;
+&lt;p&gt;Further, I may want to edit deeper the style of the polytope inside the tikzpicture. For example, line 6-9 in the tikzpicture reads:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+back/.style={loosely dotted, thin},
+edge/.style={color=orange, thick},
+facet/.style={fill=red,fill opacity=0.400000},
+vertex/.style={inner sep=1pt,circle,draw=blue!25!black,fill=blue!75!black,thick,anchor=base}]
+&lt;/pre&gt;
+&lt;p&gt;I can replace it by the following 4 lines (and adding &lt;tt class="docutils literal"&gt;\usetikzlibrary{shapes}&lt;/tt&gt; in the preamble)&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+back/.style={loosely dashed,line width=2pt},
+edge/.style={color=yellow, line width=2pt},
+facet/.style={fill=cyan,fill opacity=0.400000},
+vertex/.style={inner sep=4pt,star,star points=7,draw=blue!75!white,fill=blue!85!white,thick,anchor=base}]
+&lt;/pre&gt;
+&lt;p&gt;to give&lt;/p&gt;
+&lt;img alt="A 3-dim. associahedron" class="align-center" src="images/AssoTikZ3.png" style="width: 10cm;" /&gt;
+&lt;p&gt;Finally, you may want to tweak your picture my adding labels, elements on vertices, edges, facets, etc. Possibilities are unlimited with the possibilities of TikZ!&lt;/p&gt;
+&lt;img alt="A 3-dim. associahedron" class="align-center" src="images/AssoTikZ4.png" style="width: 15cm;" /&gt;
+&lt;p&gt;The source for the last image can be downloaded &lt;a class="reference external" href="images/Poly.tex"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="automatize-using-sagetex"&gt;
+&lt;h2&gt;Automatize using SageTex&lt;/h2&gt;
+&lt;p&gt;For this you need to put&lt;/p&gt;
+&lt;p&gt;&lt;tt class="docutils literal"&gt;\usepackage{sagetex}&lt;/tt&gt;&lt;/p&gt;
+&lt;p&gt;in the preamble of your article&lt;/p&gt;
+&lt;p&gt;There are different ways to use sagetex and you may create your own. Here are some possibilities.&lt;/p&gt;
+&lt;ol class="arabic simple"&gt;
+&lt;li&gt;You can directly type in a sagestr in the article:&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class="literal-block"&gt;
+\sagestr{(polytopes.permutahedron(4)).projection().tikz([4,5,6],45,scale=0.75, facet_color='red',vertex_color='yellow',opacity=0.3)}
+&lt;/pre&gt;
+&lt;p&gt;You should get&lt;/p&gt;
+&lt;img alt="A 3-dim. permutahedron" class="align-center" src="images/PermuTikZ.png" style="width: 7cm;" /&gt;
+&lt;ol class="arabic simple" start="2"&gt;
+&lt;li&gt;You may create the following tex commands&lt;/li&gt;
+&lt;/ol&gt;
+&lt;pre class="literal-block"&gt;
+\newcommand{\polytopeimg}[4]{\sagestr{(#1).projection().tikz(#2,#3,#4)}}
+\newcommand{\polytopeimgopt}[9]{\sagestr{(#1).projection().tikz(#2,#3,#4,#5,#6,#7,#8,#9)}}
+&lt;/pre&gt;
+&lt;p&gt;in your preamble and use them with a sagesilent in your article:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+\begin{sagesilent}
+Polytope=polytopes.great_rhombicuboctahedron()
+\end{sagesilent}
+&lt;/pre&gt;
+&lt;pre class="literal-block"&gt;
+\polytopeimg{Polytope}{[276,-607,-746]}{102}{1}
+\polytopeimgopt{Polytope}{view=[-907,379,183]}{angle=129}{scale=2}{edge_color='red'}{facet_color='yellow'}{vertex_color='blue'}{opacity=0.6}{axis=False}
+&lt;/pre&gt;
+&lt;p&gt;Then, run pdflatex, execute Sage on the file article_name.sagetex.sage and run pdflatex again.&lt;/p&gt;
+&lt;p&gt;You should get&lt;/p&gt;
+&lt;img alt="A great rhombicuboctahedron" class="align-center" src="images/GRC1.png" style="width: 10cm;" /&gt;
+&lt;img alt="A great rhombicuboctahedron" class="align-center" src="images/GRC2.png" style="width: 10cm;" /&gt;
+&lt;/div&gt;
+</content><category term="TikZ"></category><category term="LaTeX"></category><category term="Sage"></category></entry><entry><title>Introduction to Sage and Polyhedral Computations</title><link href="http://page.mi.fu-berlin.de/labbe/sageosna.html" rel="alternate"></link><published>2018-07-04T17:00:00+02:00</published><updated>2018-07-04T17:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2018-07-04:/labbe/sageosna.html</id><summary type="html">&lt;p class="first last"&gt;A reference page for the tutorials&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;This page contains the relevant links and files for the
+introduction sessions of July 4-5-6 2018 at the University of Osnabrück.&lt;/p&gt;
+&lt;div class="section" id="sage-jupyter-notebooks"&gt;
+&lt;h2&gt;Sage Jupyter Notebooks&lt;/h2&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/First_steps_in_Sage.ipynb"&gt;First steps in Sage&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/First_steps_in_Sage_Solution.ipynb"&gt;First steps in Sage -- Solution&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/introduction_to_imperative_programming.ipynb"&gt;Introduction to imperative programming&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/introduction_to_imperative_programming--Solution.ipynb"&gt;Introduction to imperative programming -- Solution&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/python_object_oriented.ipynb"&gt;Python object oriented&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/object_oriented_python--Solution.ipynb"&gt;Python object oriented -- Solution&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/Polytope_playground.ipynb"&gt;Polytope Playground&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="../~labbe/other/introPolytopesEng.ipynb"&gt;Introduction to Polytopes&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="links-to-relevant-pages"&gt;
+&lt;h2&gt;Links to relevant pages&lt;/h2&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://doc.sagemath.org/html/en/index.html"&gt;Sage Documentation&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://page.mi.fu-berlin.de/labbe/polytope.html"&gt;Draw polytopes in tikz&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="http://doc.sagemath.org/html/en/thematic_tutorials/geometry/polyhedra_tutorial.html"&gt;Recent tutorial on polyhedral geometry in Sage&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://groups.google.com/forum/#!forum/sage-support"&gt;Sage Support Google Group&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://ask.sagemath.org/questions/"&gt;Ask Sage&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://groups.google.com/forum/#!forum/sage-devel"&gt;Sage Development Google Group&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://doc.sagemath.org/html/en/developer/"&gt;Sage Developer's Guide -- Writing code for Sage&lt;/a&gt;&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="éducation"></category><category term="math"></category><category term="recherche"></category><category term="Sage"></category></entry><entry><title>Sage Days on Polytopes</title><link href="http://page.mi.fu-berlin.de/labbe/sagedays.html" rel="alternate"></link><published>2017-03-26T17:00:00+02:00</published><updated>2017-03-26T17:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:page.mi.fu-berlin.de,2017-03-26:/labbe/sagedays.html</id><summary type="html">&lt;p class="first last"&gt;Some notes on the Sage Days 84&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;During the &lt;a class="reference external" href="https://wiki.sagemath.org/days84"&gt;Sage Days 84&lt;/a&gt; in Olot,
+I collected the tickets concerning the polyhedron class into a meta-ticket:&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://trac.sagemath.org/ticket/22420"&gt;Meta-ticket: Polyhedron: new features and known bugs&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Here are some notes that I took to help me.&lt;/p&gt;
+&lt;p&gt;To build the documentation without producing the plots:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+make doc-html-no-plot
+&lt;/pre&gt;
+&lt;p&gt;This command makes a doc-clean(!).&lt;/p&gt;
+&lt;p&gt;To build only a section of the doc:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+sage -b &amp;amp;&amp;amp; sage -docbuild thematic_tutorials html
+&lt;/pre&gt;
+&lt;p&gt;You can also just select a folder.&lt;/p&gt;
+</content><category term="éducation"></category><category term="math"></category><category term="recherche"></category><category term="Sage"></category></entry></feed>
