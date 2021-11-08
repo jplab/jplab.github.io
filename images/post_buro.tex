@@ -1,0 +1,32 @@
+\documentclass{standalone}% For the example only, any class will do
+
+\usepackage{tikz}
+\usetikzlibrary{positioning}
+
+\begin{document}
+\begin{tikzpicture}[etape/.style={inner sep=1.5pt,rounded corners,draw=black,fill=purple!50!white,thick},]
+
+\node[etape,text width=4cm,] (Ab) at (0,0) {{\large Abmeldung}\\Can only be done 7 days before leaving. Now only by mail due to Corona.};
+
+\node[etape,text width=4cm,] (Sp) [below left=of Ab] {{\large Abo Sportverein}\\Please return also your membership card.};
+\node[etape,text width=4cm,] (Bank) [below=of Ab] {{\large Bank}\\Either close the account or change address};
+\node[etape,text width=4cm,] (TK) [below right=of Ab] {{\large Health Insurrance}\\ Terminate your Health Insurrance};
+\node[etape,text width=4cm,] (Strom) [right=of TK] {{\large Electricity}\\ Terminate your Electricity subscription};
+
+\node[etape,text width=4cm,] (Schlu) [above=of Strom,shift={(0,1)}] {{\large Schlüsselübergabe}\\ Get your apartment checked for destruction and get the official counts for electricity, water, and heating. Then wait for the Security deposit (watch out if you closed your account, you need to fill another form to tell them the other account)};
+
+\node[etape,text width=4cm,] (Steuer) [below left=of Bank] {{\large Steuerbefreiung}\\Give your Steuernummer (which does exist is Canada) and your new Anmeldungbescheinigung (which obviously doesn't exist in Canada)};
+\node[etape,text width=4cm,] (Haft) [below=of Bank] {{\large Haftpflicht}\\ Terminate your responsibility insurrance};
+
+
+\draw [->,very thick] (Ab) to [out=225,in=45] (Sp);
+\draw [->,very thick] (Ab) to [out=270,in=90] (Bank);
+\draw [->,very thick] (Ab) to [out=315,in=90] (TK);
+\draw [->,very thick] (Ab) to [out=330,in=90] (Strom);
+\draw [->,very thick] (Schlu) to [out=270,in=90] (Strom);
+
+\draw [->,very thick] (Bank) to [out=270,in=90] (Steuer);
+\draw [->,very thick] (Bank) to [out=270,in=90] (Haft);
+
+\end{tikzpicture}
+\end{document}
