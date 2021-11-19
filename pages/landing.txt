@@ -1,9 +1,10 @@
 <p> 
-Since December 2020, I am Privatdozent at the Department of Mathematics and Computer Science of the Freie Universität.
-In November 2021, I will join the <i>Service d'Enseignement Généraux</i> at the <a class="reference external" href="https://www.etsmtl.ca">École de Technologie supérieure</a> in Montréal which is within the <a class="reference external" href="https://www.uquebec.ca">Université du Québec</a> system as a Lecturer (Maître d'enseignement).</p>
+I am a Lecturer (Maître d'enseignement) at the <i>Service d'Enseignement Généraux</i> of the <a class="reference external" href="https://www.etsmtl.ca">École de Technologie supérieure</a> in Montréal which is within the <a class="reference external" href="https://www.uquebec.ca">Université du Québec</a>.
+</p>
 
 <p>
-I completed my <a href="https://refubium.fu-berlin.de/handle/fub188/28395">Habilitation</a> in July 2020. My Habilitation Lecture was on <i>Jones' Unknotting Conjecture</i>.  </p>
+I completed my <a href="https://refubium.fu-berlin.de/handle/fub188/28395">Habilitation</a> in July 2020. My Habilitation Lecture was on <i>Jones' Unknotting Conjecture</i>.  
+Between December 2020 and November 2021, I was Privatdozent at the Department of Mathematics and Computer Science of the Freie Universität.</p>
 
 <p>
 Between October 2016 and September 2020, I was a Postdoctoral Researcher in the <a class="reference external" href="http://www.math.fu-berlin.de/groups/discgeom/index.html">Discrete Geometry workgroup</a></li> of the <a class="reference external" href="http://www.mi.fu-berlin.de/en/math/">Freie Universität Berlin</a></li> as a member of the SFB Project <a href="http://www.discretization.de/en/">Discretization in Geometry and Dynamics</a>. I was a junior faculty member of the Berlin Mathematical School and of the Research Training Group <a href="http://www.facetsofcomplexity.de/">Facets of complexity</a>. </p>
