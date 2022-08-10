@@ -46,6 +46,9 @@ is living its life and is now running on Windows, OSX and Linux.&lt;/p&gt;
 and Discrete Geometry. So, I have harvested &lt;a class="reference external" href="other/MSC2020-52_Citations.ipynb"&gt;the data&lt;/a&gt;. from MathSciNet. I
 looked at the citations to known CAS softwares with 52 as 1) its primary
 classification 2) a secondary classification and 3) either of the two.&lt;/p&gt;
+&lt;p&gt;The softwares/packages that I used to compile the data are: sage, normaliz,
+ppl, cdd, topcom, latte, polymake, porta, qhull, cgal, mathematica, maple,
+magma, and matlab.&lt;/p&gt;
 &lt;p&gt;The first graphic shows the citations to CAS with a Primary classification in 52:&lt;/p&gt;
 &lt;img alt="The citations for 52 Primary" class="align-center" src="images/stacked_52Primary.png" style="width: 20cm;" /&gt;
 &lt;p&gt;The second graphic shows the citations to CAS with a Secondary classification in 52:&lt;/p&gt;
