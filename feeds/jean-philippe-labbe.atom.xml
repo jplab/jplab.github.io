@@ -1,5 +1,84 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Jean-Philippe Labbé's webpage - Jean-Philippe Labbé</title><link href="https://jplab.github.io/" rel="alternate"></link><link href="https://jplab.github.io/feeds/jean-philippe-labbe.atom.xml" rel="self"></link><id>https://jplab.github.io/</id><updated>2021-11-08T10:00:00+01:00</updated><entry><title>Precarity</title><link href="https://jplab.github.io/reasons.html" rel="alternate"></link><published>2021-11-08T10:00:00+01:00</published><updated>2021-11-08T10:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:jplab.github.io,2021-11-08:/reasons.html</id><summary type="html">&lt;p&gt;I wrote this text in July 2016, the week I learned that I obtained a 4-years research postdoc in Germany, without teaching obligations (and everyone knows that not teaching hurts you, so this means that the university will get free teaching at some point, because &lt;em&gt;yeah&lt;/em&gt; that's how it works …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I wrote this text in July 2016, the week I learned that I obtained a 4-years research postdoc in Germany, without teaching obligations (and everyone knows that not teaching hurts you, so this means that the university will get free teaching at some point, because &lt;em&gt;yeah&lt;/em&gt; that's how it works: I'm already paid, so you won't get money for teaching!).&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Jean-Philippe Labbé's webpage - Jean-Philippe Labbé</title><link href="https://jplab.github.io/" rel="alternate"></link><link href="https://jplab.github.io/feeds/jean-philippe-labbe.atom.xml" rel="self"></link><id>https://jplab.github.io/</id><updated>2022-08-10T14:40:00+02:00</updated><entry><title>Computer Algebra System citations in MSC2020 52-Convex and discrete geometry</title><link href="https://jplab.github.io/sage_cite.html" rel="alternate"></link><published>2022-08-10T14:40:00+02:00</published><updated>2022-08-10T14:40:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:jplab.github.io,2022-08-10:/sage_cite.html</id><summary type="html">&lt;p class="first last"&gt;Usage of Sagemath by researchers in convex and discrete geometry vs other softwares&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;Some time ago, I had the idea to measure the quantity of citations of Sagemath
+and other computer algebra systems in my area of research work, that is the
+Mathematics Subject Classification (MSC) 2020: 52-Convex and discrete geometry.&lt;/p&gt;
+&lt;div class="section" id="recent-history"&gt;
+&lt;h2&gt;Recent history&lt;/h2&gt;
+&lt;p&gt;At the &lt;a class="reference external" href="https://wiki.sagemath.org/days79"&gt;Sage Days 79&lt;/a&gt;, that I organized in November 2016, several Sage developers
+manifested their interests in pushing forward the capacities of Sagemath in
+polyhedral geometry, working to improve the interface with other open source
+projects, while enlarging the community and increase the communication between
+users and programmers.&lt;/p&gt;
+&lt;p&gt;This led to the &lt;a class="reference external" href="https://wiki.sagemath.org/days84"&gt;Sage Days 84&lt;/a&gt; in March 2017, an intensive 2-weeks long retreat where a
+dozen of Sage developers met and set the table for several years of work
+involved in making the polyhedral library of Sage both user-friendly and
+research-efficient. This workshop also involved the generous collaboration
+with developers of PARI/GP and polymake that helped to bring closer the
+communities.&lt;/p&gt;
+&lt;p&gt;Two coding sprints then occured during the &lt;a class="reference external" href="https://wiki.sagemath.org/days88"&gt;Year of Coding Sprints at the IMA&lt;/a&gt; in 2017/18,
+where the collaboration with developers of Normaliz and pynormaliz was very
+fruitful.&lt;/p&gt;
+&lt;p&gt;Since then, the development of Optimization and Polyhedral Geometry in Sagemath
+is monitored on the &lt;a class="reference external" href="https://trac.sagemath.org/wiki/SagePolyhedralGeometry"&gt;Wiki Page&lt;/a&gt;, and the &lt;a class="reference external" href="https://wiki.sagemath.org/ReleaseTours"&gt;Release Tours&lt;/a&gt; describe the new
+developments in polyhedral geometry as well.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="research-works-in-convex-and-discrete-geometry-refering-to-cas-softwares"&gt;
+&lt;h2&gt;Research Works in Convex and Discrete Geometry refering to CAS softwares&lt;/h2&gt;
+&lt;p&gt;As all developers of open source computer algebra system or specialized packages,
+it is difficult to measure the impact of the work involved in integrating,
+deploying, developing and maintaining a software. In the mathematical field,
+I am under the impression (and likely not alone having this impression) that
+Academic institutions (whether they are Governmental Funding institutions
+or Educational) and their members are slow in increasing the recognition of
+work in the implementation of theoretical methods to provide evidence whether
+certain assertions be valid or not. Perhaps this lies in the fact that
+softwares are often shortlived? It is hard to measure the impact in this
+case when a piece of software was written to obtain the results in a few
+papers...&lt;/p&gt;
+&lt;p&gt;Launched in 2005, Sage is now close to attain its age of majority (well, at
+least here in Québec). One may now answer confidently to those that doubted
+its viability involved in its mission statement: &lt;em&gt;Creating a viable free
+open source alternative to Magma, Maple, Mathematica and Matlab.&lt;/em&gt; It surely
+is living its life and is now running on Windows, OSX and Linux.&lt;/p&gt;
+&lt;p&gt;But is it an alternative to Magma, Maple, Mathematica and Matlab?&lt;/p&gt;
+&lt;p&gt;I am particularly interested to the answer in the case of research in Convex
+and Discrete Geometry. So, I have harvested &lt;a class="reference external" href="other/MSC2020-52_Citations.ipynb"&gt;the data&lt;/a&gt;. from MathSciNet. I
+looked at the citations to known CAS softwares with 52 as 1) its primary
+classification 2) a secondary classification and 3) either of the two.&lt;/p&gt;
+&lt;p&gt;The first graphic shows the citations to CAS with a Primary classification in 52:&lt;/p&gt;
+&lt;img alt="The citations for 52 Primary" class="align-center" src="images/stacked_52Primary.png" style="width: 10cm;" /&gt;
+&lt;p&gt;The second graphic shows the citations to CAS with a Secondary classification in 52:&lt;/p&gt;
+&lt;img alt="The citations for 52 Secondary" class="align-center" src="images/stacked_52Secondary.png" style="width: 10cm;" /&gt;
+&lt;p&gt;The third graphic shows the total citations to CAS with a classification in 52:&lt;/p&gt;
+&lt;img alt="The citations for 52 Primary &amp;amp; Secondary" class="align-center" src="images/stacked_52PS.png" style="width: 10cm;" /&gt;
+&lt;p&gt;In the 20 first years of the century, we may observe that the citations to CAS
+in 52 increased five-fold, from around a dozen to more than 60.&lt;/p&gt;
+&lt;p&gt;Below is the same data, now in relative terms:&lt;/p&gt;
+&lt;img alt="The citations for 52 Primary" class="align-center" src="images/100stacked_52Primary.png" style="width: 10cm;" /&gt;
+&lt;p&gt;The second graphic shows the citations to CAS with a Secondary classification in 52:&lt;/p&gt;
+&lt;img alt="The citations for 52 Secondary" class="align-center" src="images/100stacked_52Secondary.png" style="width: 10cm;" /&gt;
+&lt;p&gt;The third graphic shows the total citations to CAS with a classification in 52:&lt;/p&gt;
+&lt;img alt="The citations for 52 Primary &amp;amp; Secondary" class="align-center" src="images/100stacked_52PS.png" style="width: 10cm;" /&gt;
+&lt;p&gt;One may then observe that the bottom 7 softwares (which are either standard or
+optional packages in Sage) available account for 64% of the total number of
+citations, and citations to Sage form half of them, making Sage cited one out
+of three times when a CAS is cited in the 52-class.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div class="section" id="conclusion"&gt;
+&lt;h2&gt;Conclusion&lt;/h2&gt;
+&lt;p&gt;My intention in producing these graphics are to measure the growing impact of CAS
+in research in convex and discrete geometry. Further, to foster collaboration
+and also knowledge about softwares (perhaps I missed a software, let me know!).
+Sieving through articles, I discovered certain tools that could be used in
+certain cases and it is definitely useful to have them reported somewhere...&lt;/p&gt;
+&lt;p&gt;This post is also to acknowledge the huge amount of work that was put in the
+Open Source Projects listed above by their developers community. All the
+scientific work reported above could not have been possible without your
+contributions and we definitely should not forget to support each other
+through our projects.&lt;/p&gt;
+&lt;/div&gt;
+</content><category term="éducation"></category><category term="math"></category><category term="recherche"></category><category term="Sage"></category></entry><entry><title>Precarity</title><link href="https://jplab.github.io/reasons.html" rel="alternate"></link><published>2021-11-08T10:00:00+01:00</published><updated>2021-11-08T10:00:00+01:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:jplab.github.io,2021-11-08:/reasons.html</id><summary type="html">&lt;p&gt;I wrote this text in July 2016, the week I learned that I obtained a 4-years research postdoc in Germany, without teaching obligations (and everyone knows that not teaching hurts you, so this means that the university will get free teaching at some point, because &lt;em&gt;yeah&lt;/em&gt; that's how it works …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I wrote this text in July 2016, the week I learned that I obtained a 4-years research postdoc in Germany, without teaching obligations (and everyone knows that not teaching hurts you, so this means that the university will get free teaching at some point, because &lt;em&gt;yeah&lt;/em&gt; that's how it works: I'm already paid, so you won't get money for teaching!).&lt;/p&gt;
 &lt;div class="section" id="reasons-why"&gt;
 &lt;h2&gt;Reasons why...&lt;/h2&gt;
 &lt;p&gt;For someone in the precarious academia system, a 4-years postdoc is the jackpot! My spirit and thoughts have COMPLETELY changed dramatically within a week time.
