@@ -47,19 +47,19 @@ and Discrete Geometry. So, I have harvested &lt;a class="reference external" hre
 looked at the citations to known CAS softwares with 52 as 1) its primary
 classification 2) a secondary classification and 3) either of the two.&lt;/p&gt;
 &lt;p&gt;The first graphic shows the citations to CAS with a Primary classification in 52:&lt;/p&gt;
-&lt;img alt="The citations for 52 Primary" class="align-center" src="images/stacked_52Primary.png" style="width: 15cm;" /&gt;
+&lt;img alt="The citations for 52 Primary" class="align-center" src="images/stacked_52Primary.png" style="width: 20cm;" /&gt;
 &lt;p&gt;The second graphic shows the citations to CAS with a Secondary classification in 52:&lt;/p&gt;
-&lt;img alt="The citations for 52 Secondary" class="align-center" src="images/stacked_52Secondary.png" style="width: 15cm;" /&gt;
+&lt;img alt="The citations for 52 Secondary" class="align-center" src="images/stacked_52Secondary.png" style="width: 20cm;" /&gt;
 &lt;p&gt;The third graphic shows the total citations to CAS with a classification in 52:&lt;/p&gt;
-&lt;img alt="The citations for 52 Primary &amp;amp; Secondary" class="align-center" src="images/stacked_52PS.png" style="width: 15cm;" /&gt;
+&lt;img alt="The citations for 52 Primary &amp;amp; Secondary" class="align-center" src="images/stacked_52PS.png" style="width: 20cm;" /&gt;
 &lt;p&gt;In the 20 first years of the century, we may observe that the citations to CAS
 in 52 increased five-fold, from around a dozen to more than 60.&lt;/p&gt;
 &lt;p&gt;Below is the same data, now in relative terms:&lt;/p&gt;
-&lt;img alt="The citations for 52 Primary" class="align-center" src="images/100stacked_52Primary.png" style="width: 15cm;" /&gt;
+&lt;img alt="The citations for 52 Primary" class="align-center" src="images/100stacked_52Primary.png" style="width: 20cm;" /&gt;
 &lt;p&gt;The second graphic shows the citations to CAS with a Secondary classification in 52:&lt;/p&gt;
-&lt;img alt="The citations for 52 Secondary" class="align-center" src="images/100stacked_52Secondary.png" style="width: 15cm;" /&gt;
+&lt;img alt="The citations for 52 Secondary" class="align-center" src="images/100stacked_52Secondary.png" style="width: 20cm;" /&gt;
 &lt;p&gt;The third graphic shows the total citations to CAS with a classification in 52:&lt;/p&gt;
-&lt;img alt="The citations for 52 Primary &amp;amp; Secondary" class="align-center" src="images/100stacked_52PS.png" style="width: 15cm;" /&gt;
+&lt;img alt="The citations for 52 Primary &amp;amp; Secondary" class="align-center" src="images/100stacked_52PS.png" style="width: 20cm;" /&gt;
 &lt;p&gt;One may then observe that the bottom 7 softwares (which are either standard or
 optional packages in Sage) available account for 64% of the total number of
 citations, and citations to Sage form half of them, making Sage cited one out
