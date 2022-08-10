@@ -70,11 +70,17 @@ of three times when a CAS is cited in the 52-class.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div class="section" id="conclusion"&gt;
 &lt;h2&gt;Conclusion&lt;/h2&gt;
-&lt;p&gt;My intention in producing these graphics are to measure the growing impact of CAS
-in research in convex and discrete geometry. Further, to foster collaboration
-and also knowledge about softwares (perhaps I missed a software, let me know!).
-Sieving through articles, I discovered certain tools that could be used in
-certain cases and it is definitely useful to have them reported somewhere...&lt;/p&gt;
+&lt;p&gt;At the beginning of the century, one could say that Magma, Maple, Mathematica,
+and matlab took about 50% of the share of citations. Currently, the four
+together are cited in around 32% of the cases and Sagemath winds up being cited
+also around 32%, and other Open Source discrete geometry projects collect the
+rest of the acknowledgements.&lt;/p&gt;
+&lt;p&gt;My intention in producing these graphics are to measure the growing impact of
+Open Source CAS in research in convex and discrete geometry. Further, to foster
+collaboration and also knowledge about softwares (perhaps I missed a software,
+let me know!).  Sieving through articles, I discovered certain tools that could
+be used in certain cases and it is definitely useful to have them reported
+somewhere...&lt;/p&gt;
 &lt;p&gt;This post is also to acknowledge the huge amount of work that was put in the
 Open Source Projects listed above by their developers community. All the
 scientific work reported above could not have been possible without your
