@@ -1,5 +1,5 @@
 <p> 
-I am a Lecturer (Maître d'enseignement) at the <i>Service d'Enseignement Généraux</i> of the <a class="reference external" href="https://www.etsmtl.ca">École de Technologie supérieure</a> in Montréal which is within the <a class="reference external" href="https://www.uquebec.ca">Université du Québec</a>.
+I am a Teaching Professor (Professeur enseignement) at the <i>Département des Enseignements Généraux</i> of the <a class="reference external" href="https://www.etsmtl.ca">École de Technologie supérieure</a> in Montréal which is within the <a class="reference external" href="https://www.uquebec.ca">Université du Québec</a>.
 </p>
 
 <p>
