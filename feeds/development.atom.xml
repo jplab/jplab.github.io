@@ -1,5 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Jean-Philippe Labbé's webpage - Development</title><link href="https://jplab.github.io/" rel="alternate"></link><link href="https://jplab.github.io/feeds/development.atom.xml" rel="self"></link><id>https://jplab.github.io/</id><updated>2022-08-10T14:40:00+02:00</updated><entry><title>Computer Algebra System citations in MSC2020 52-Convex and discrete geometry</title><link href="https://jplab.github.io/sage_cite.html" rel="alternate"></link><published>2022-08-10T14:40:00+02:00</published><updated>2022-08-10T14:40:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:jplab.github.io,2022-08-10:/sage_cite.html</id><summary type="html">&lt;p class="first last"&gt;Usage of Sagemath by researchers in convex and discrete geometry vs other softwares&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Jean-Philippe Labbé's webpage - Development</title><link href="https://jplab.github.io/" rel="alternate"></link><link href="https://jplab.github.io/feeds/development.atom.xml" rel="self"></link><id>https://jplab.github.io/</id><updated>2025-06-30T12:00:00+02:00</updated><entry><title>Sage Days 128</title><link href="https://jplab.github.io/sagedays128.html" rel="alternate"></link><published>2025-06-30T12:00:00+02:00</published><updated>2025-06-30T12:00:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:jplab.github.io,2025-06-30:/sagedays128.html</id><summary type="html">&lt;p class="first last"&gt;Some notes on the Sage Days 128&lt;/p&gt;
+</summary><content type="html">&lt;p&gt;During the &lt;a class="reference external" href="https://wiki.sagemath.org/days128"&gt;Sage Days 128&lt;/a&gt;
+in Le Teich, I worked on the implementation of a function that
+I wanted to have in Sage for a long time!&lt;/p&gt;
+&lt;p&gt;&lt;a class="reference external" href="https://github.com/sagemath/sage/pull/39496"&gt;Add deformation cones and checking for regularity for Point Configurations and normal fans of Polyhedra #39496&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This functionalities are available in Sage version 10.6+.&lt;/p&gt;
+&lt;p&gt;You can check whether a (full-dimensional) fan is polytopal:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+sage: def mother(epsilon=0):
+....:     rays = [(4-epsilon,epsilon,0),(0,4-epsilon,epsilon),(epsilon,0,4-epsilon),(2,1,1),(1,2,1),(1,1,2),(-1,-1,-1)]
+....:     L = [(0,1,4),(0,3,4),(1,2,5),(1,4,5),(0,2,3),(2,3,5),(3,4,5),(6,0,1),(6,1,2),(6,2,0)]
+....:     S1 = [Cone([rays[i] for i in indices]) for indices in L]
+....:     return Fan(S1)
+&lt;/pre&gt;
+&lt;p&gt;When epsilon=0, it is not polytopal:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+sage: epsilon = 0
+sage: mother(epsilon).is_polytopal()
+False
+&lt;/pre&gt;
+&lt;p&gt;Doing a slight perturbation makes the same subdivision polytopal:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+sage: epsilon = 1/2
+sage: mother(epsilon).is_polytopal()
+True
+&lt;/pre&gt;
+&lt;p&gt;You can also obtain the deformation cone of a polytope using this functionality.
+The deformation cone provides the cone of so-called &amp;quot;right-hand-sides&amp;quot; of the
+H-representation of the starting polytope which provide a deformed polytope whose
+normal fan coarsens that of the starting polytope. The interior direction of the
+deformation cone provide the deformation of the polytope that preserve the normal
+fan (i.e. the space of all the normally equivalent polytopes). The output format
+follows the order of the normals of the starting polytope and it is not quotiented
+by the linear transformations (since the output would not be canonical, we run
+into representations issues here...).&lt;/p&gt;
+&lt;p&gt;Let's examine the deformation cone of the square with one truncated vertex:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+sage: tc = Polyhedron([(1, -1), (1/3, 1), (1, 1/3), (-1, 1), (-1, -1)])
+sage: dc = tc.deformation_cone()
+sage: dc.an_element()
+(2, 1, 1, 0, 0)
+sage: [_.A() for _ in tc.Hrepresentation()]
+[(1, 0), (0, 1), (0, -1), (-3, -3), (-1, 0)]
+sage: P = Polyhedron(rays=[(1, 0, 2), (0, 1, 1), (0, -1, 1), (-3, -3, 0), (-1, 0, 0)])
+sage: P.rays()
+(A ray in the direction (-1, -1, 0),
+ A ray in the direction (-1, 0, 0),
+ A ray in the direction (0, -1, 1),
+ A ray in the direction (0, 1, 1),
+ A ray in the direction (1, 0, 2))
+&lt;/pre&gt;
+&lt;p&gt;Now, let's compute the deformation cone of the pyramid over a square
+and verify that it is not full dimensional:&lt;/p&gt;
+&lt;pre class="literal-block"&gt;
+sage: py = Polyhedron([(0, -1, -1), (0, -1, 1), (0, 1, -1), (0, 1, 1), (1, 0, 0)])
+sage: dc_py = py.deformation_cone(); dc_py
+A 4-dimensional polyhedron in QQ^5 defined as the convex hull of 1 vertex, 1 ray, 3 lines
+sage: [ineq.b() for ineq in py.Hrepresentation()]
+[0, 1, 1, 1, 1]
+sage: r = dc_py.rays()[0]
+sage: l1,l2,l3 = dc_py.lines()
+sage: r.vector()-l1.vector()/2-l2.vector()-l3.vector()/2
+(0, 1, 1, 1, 1)
+&lt;/pre&gt;
+&lt;p&gt;This function uses the Gale transform as described in Section 5.4 of the Triangulations' book of De Loera-Rambau-Santos.&lt;/p&gt;
+</content><category term="éducation"></category><category term="math"></category><category term="recherche"></category><category term="Sage"></category></entry><entry><title>Computer Algebra System citations in MSC2020 52-Convex and discrete geometry</title><link href="https://jplab.github.io/sage_cite.html" rel="alternate"></link><published>2022-08-10T14:40:00+02:00</published><updated>2022-08-10T14:40:00+02:00</updated><author><name>Jean-Philippe Labbé</name></author><id>tag:jplab.github.io,2022-08-10:/sage_cite.html</id><summary type="html">&lt;p class="first last"&gt;Usage of Sagemath by researchers in convex and discrete geometry vs other softwares&lt;/p&gt;
 </summary><content type="html">&lt;p&gt;Some time ago, I had the idea to measure the quantity of citations of Sagemath
 and other computer algebra systems in my area of research work, that is the
 Mathematics Subject Classification (MSC) 2020: 52-Convex and discrete geometry.&lt;/p&gt;

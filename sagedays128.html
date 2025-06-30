@@ -9,18 +9,18 @@
         <meta property="og:type" content="article" />
         <meta name="twitter:card" content="summary">
 
-<meta name="keywords" content="Québec, éducation, langue, Revue de Presse, " />
+<meta name="keywords" content="éducation, math, recherche, Sage, Development, " />
 
-<meta property="og:title" content="Revue 2015 du Devoir -- Langue "/>
-<meta property="og:url" content="https://jplab.github.io/devoir_2015_langue.html" />
-<meta property="og:description" content="Revue 2015 des articles du Devoir sur la langue" />
+<meta property="og:title" content="Sage Days 128 "/>
+<meta property="og:url" content="https://jplab.github.io/sagedays128.html" />
+<meta property="og:description" content="Some notes on the Sage Days 128" />
 <meta property="og:site_name" content="Jean-Philippe Labbé&#39;s webpage" />
 <meta property="og:article:author" content="Jean-Philippe Labbé" />
-<meta property="og:article:published_time" content="2016-01-28T15:00:00+01:00" />
-<meta name="twitter:title" content="Revue 2015 du Devoir -- Langue ">
-<meta name="twitter:description" content="Revue 2015 des articles du Devoir sur la langue">
+<meta property="og:article:published_time" content="2025-06-30T12:00:00+02:00" />
+<meta name="twitter:title" content="Sage Days 128 ">
+<meta name="twitter:description" content="Some notes on the Sage Days 128">
 
-        <title>Revue 2015 du Devoir -- Langue  · Jean-Philippe Labbé&#39;s webpage
+        <title>Sage Days 128  · Jean-Philippe Labbé&#39;s webpage
 </title>
         <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css" rel="stylesheet">
         <link rel="stylesheet" type="text/css" href="https://jplab.github.io/theme/css/pygments.css" media="screen">
@@ -72,8 +72,8 @@
 <div class="row-fluid">
     <header class="page-header span10 offset2">
         <h1>
-            <a href="https://jplab.github.io/devoir_2015_langue.html">
-                Revue 2015 du Devoir -- Langue
+            <a href="https://jplab.github.io/sagedays128.html">
+                Sage Days 128
             </a>
         </h1>
     </header>
@@ -82,32 +82,70 @@
 <div class="row-fluid">
         <div class="span8 offset2 article-content">
             
-            <p>Depuis cet automne, je suis abonné au Devoir. Voici une liste d'articles
-publiés dans le Devoir que j'ai particulièrement appréciés.</p>
-<p>Avertissement: la présence d'un article ne signifie pas que j'approuve son
-contenu, mais bien que son contenu a particulièrement attiré mon attention.</p>
-<div class="section" id="la-langue-maternelle-laisse-une-empreinte-cerebrale">
-<h2><a class="reference external" href="http://www.ledevoir.com/societe/science-et-technologie/456806/etude-la-langue-maternelle-laisse-une-empreinte-cerebrale">La langue maternelle laisse une empreinte cérébrale</a></h2>
-<p>Annonce des résultats de recherche de chercheurs de l'université McGill affirmant que l'exposition à sa langue maternelle après la naissance laisse des traces indélébiles dans le cerveau.
-Des résultats fascinants!</p>
-</div>
-<div class="section" id="le-pedigree-francais-de-langlais">
-<h2><a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/459856/le-pedigree-francais-de-l-anglais">Le pedigree français de l’anglais</a></h2>
-<p>'De la même manière que le français s’est construit par opposition au latin, l’anglais s’est largement bâti par rejet du français.'
-Un article sur la présence du français dans la langue anglaise et son influence.</p>
-</div>
-<div class="section" id="le-retour-du-francais">
-<h2><a class="reference external" href="http://www.ledevoir.com/societe/actualites-en-societe/457884/le-retour-du-francais">Le retour du français</a></h2>
-<p>'Ça coupe court à tous les discours sur le déclin : le français reste encore une grande langue internationale de formation et de recherche.'
-'Donc, en fait, vous publiez en français et si quelqu’un en Azerbaïdjan veut vous lire, il peut faire des extractions, les faire traduire et vous lire sans avoir recours à l’anglais.'
-'Le Commonwealth a la reine d’Angleterre, mais la francophonie, elle, a la langue française.'</p>
-</div>
-<div class="section" id="quelques-verites-sur-la-langue">
-<h2><a class="reference external" href="http://www.ledevoir.com/culture/livres/454465/quelques-verites-sur-la-langue">Quelques vérités sur la langue</a></h2>
-<p>Un article présentant un livre discutant des idées reçues sur le français.
-'On compte bien quelques différences lexicales entre notre français et celui de la France, mais la syntaxe est la même. L’accent ? Il est varié, ici comme là-bas. Il faut d’ailleurs retenir qu’« un accent ne fait pas une langue et [que] seuls les muets n’en ont pas un ». Melançon rappelle aussi, à raison, que ce qu’on appelle le français international « est une construction de l’esprit » et que la variété linguistique (géographique, temporelle, sociale et situationnelle) fait partie de la nature même de toute langue.'
-'Joual ou cheval, ça se discute. Le problème, disait Miron, c’est quand on est forcé de dire « horse ».'</p>
-</div>
+            <p>During the <a class="reference external" href="https://wiki.sagemath.org/days128">Sage Days 128</a>
+in Le Teich, I worked on the implementation of a function that
+I wanted to have in Sage for a long time!</p>
+<p><a class="reference external" href="https://github.com/sagemath/sage/pull/39496">Add deformation cones and checking for regularity for Point Configurations and normal fans of Polyhedra #39496</a></p>
+<p>This functionalities are available in Sage version 10.6+.</p>
+<p>You can check whether a (full-dimensional) fan is polytopal:</p>
+<pre class="literal-block">
+sage: def mother(epsilon=0):
+....:     rays = [(4-epsilon,epsilon,0),(0,4-epsilon,epsilon),(epsilon,0,4-epsilon),(2,1,1),(1,2,1),(1,1,2),(-1,-1,-1)]
+....:     L = [(0,1,4),(0,3,4),(1,2,5),(1,4,5),(0,2,3),(2,3,5),(3,4,5),(6,0,1),(6,1,2),(6,2,0)]
+....:     S1 = [Cone([rays[i] for i in indices]) for indices in L]
+....:     return Fan(S1)
+</pre>
+<p>When epsilon=0, it is not polytopal:</p>
+<pre class="literal-block">
+sage: epsilon = 0
+sage: mother(epsilon).is_polytopal()
+False
+</pre>
+<p>Doing a slight perturbation makes the same subdivision polytopal:</p>
+<pre class="literal-block">
+sage: epsilon = 1/2
+sage: mother(epsilon).is_polytopal()
+True
+</pre>
+<p>You can also obtain the deformation cone of a polytope using this functionality.
+The deformation cone provides the cone of so-called &quot;right-hand-sides&quot; of the
+H-representation of the starting polytope which provide a deformed polytope whose
+normal fan coarsens that of the starting polytope. The interior direction of the
+deformation cone provide the deformation of the polytope that preserve the normal
+fan (i.e. the space of all the normally equivalent polytopes). The output format
+follows the order of the normals of the starting polytope and it is not quotiented
+by the linear transformations (since the output would not be canonical, we run
+into representations issues here...).</p>
+<p>Let's examine the deformation cone of the square with one truncated vertex:</p>
+<pre class="literal-block">
+sage: tc = Polyhedron([(1, -1), (1/3, 1), (1, 1/3), (-1, 1), (-1, -1)])
+sage: dc = tc.deformation_cone()
+sage: dc.an_element()
+(2, 1, 1, 0, 0)
+sage: [_.A() for _ in tc.Hrepresentation()]
+[(1, 0), (0, 1), (0, -1), (-3, -3), (-1, 0)]
+sage: P = Polyhedron(rays=[(1, 0, 2), (0, 1, 1), (0, -1, 1), (-3, -3, 0), (-1, 0, 0)])
+sage: P.rays()
+(A ray in the direction (-1, -1, 0),
+ A ray in the direction (-1, 0, 0),
+ A ray in the direction (0, -1, 1),
+ A ray in the direction (0, 1, 1),
+ A ray in the direction (1, 0, 2))
+</pre>
+<p>Now, let's compute the deformation cone of the pyramid over a square
+and verify that it is not full dimensional:</p>
+<pre class="literal-block">
+sage: py = Polyhedron([(0, -1, -1), (0, -1, 1), (0, 1, -1), (0, 1, 1), (1, 0, 0)])
+sage: dc_py = py.deformation_cone(); dc_py
+A 4-dimensional polyhedron in QQ^5 defined as the convex hull of 1 vertex, 1 ray, 3 lines
+sage: [ineq.b() for ineq in py.Hrepresentation()]
+[0, 1, 1, 1, 1]
+sage: r = dc_py.rays()[0]
+sage: l1,l2,l3 = dc_py.lines()
+sage: r.vector()-l1.vector()/2-l2.vector()-l3.vector()/2
+(0, 1, 1, 1, 1)
+</pre>
+<p>This function uses the Gale transform as described in Section 5.4 of the Triangulations' book of De Loera-Rambau-Santos.</p>
 
 
 
@@ -130,8 +168,8 @@ Un article sur la présence du français dans la langue anglaise et son influenc
                 <a class="accordion-toggle disqus-comment-count comment-count"
                    data-toggle="collapse"
                    data-parent="#accordion2"
-                   data-disqus-identifier="https://jplab.github.io/devoir_2015_langue.html"
-                   href="https://jplab.github.io/devoir_2015_langue.html#comment_thread"
+                   data-disqus-identifier="https://jplab.github.io/sagedays128.html"
+                   href="https://jplab.github.io/sagedays128.html#comment_thread"
                    id="comment-accordion-toggle">
                     Comments
                 </a>
@@ -149,8 +187,8 @@ Un article sur la présence du français dans la langue anglaise et son influenc
         (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
     }());
 
-    var disqus_identifier = 'https://jplab.github.io/devoir_2015_langue.html';
-    var disqus_url = 'https://jplab.github.io/devoir_2015_langue.html';
+    var disqus_identifier = 'https://jplab.github.io/sagedays128.html';
+    var disqus_url = 'https://jplab.github.io/sagedays128.html';
 
     (function() {
         var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
@@ -175,19 +213,22 @@ Un article sur la présence du français dans la langue anglaise et son influenc
         <section>
         <div class="span2" style="float:right;font-size:0.9em;">
             <h4>Published</h4>
-            <time itemprop="dateCreated" datetime="2016-01-28T15:00:00+01:00">Jan 28, 2016</time>
+            <time itemprop="dateCreated" datetime="2025-06-30T12:00:00+02:00">Jun 30, 2025</time>
             <h4>Category</h4>
-            <a class="category-link" href="https://jplab.github.io/categories.html#revue-de-presse-ref">Revue de Presse</a>
+            <a class="category-link" href="https://jplab.github.io/categories.html#development-ref">Development</a>
             <h4>Tags</h4>
             <ul class="list-of-tags tags-in-article">
                 <li><a href="https://jplab.github.io/tags.html#education-ref">éducation
                     <span>16</span>
 </a></li>
-                <li><a href="https://jplab.github.io/tags.html#langue-ref">langue
-                    <span>9</span>
+                <li><a href="https://jplab.github.io/tags.html#math-ref">math
+                    <span>10</span>
 </a></li>
-                <li><a href="https://jplab.github.io/tags.html#quebec-ref">Québec
-                    <span>29</span>
+                <li><a href="https://jplab.github.io/tags.html#recherche-ref">recherche
+                    <span>10</span>
+</a></li>
+                <li><a href="https://jplab.github.io/tags.html#sage-ref">Sage
+                    <span>6</span>
 </a></li>
             </ul>
 <h4>Contact</h4>
